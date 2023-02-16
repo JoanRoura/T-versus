@@ -27,7 +27,11 @@ app.post('/signup', async (req, res) => {
     res.json(userReponse);
 })
 
-app.get('/register')
+app.get('/login', async (res)=> {
+    admin.auth().getUser()
+  }
+)
+
 
 
 const PORT = process.env.PORT || 8080;

@@ -23,10 +23,11 @@ export class LoginComponent {
     
   }
   
-  onSubmit() {
+  login() {
     this.authService.login(this.formLogin.value.email, this.formLogin.value.password)
     .then(resp => {
       console.log(resp);
+      
       this.router.navigate(['/404'])
       // if (resp.user.email == this.formReg.value.email) {
       // }

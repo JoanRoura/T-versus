@@ -8,3 +8,33 @@ html, body {
     color: whitesmoke;
 }
 
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #29262E;
+}
+
+.wrapper2 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #29262E;
+
+}
+
+.logo {
+    height: 130px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.body {
+    width: 100%;
+    max-width: 330px;
+    margin: auto;
+    padding: 15px;
+    text-align: center;
+}
+

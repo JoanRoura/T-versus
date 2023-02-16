@@ -5,7 +5,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from
 import { tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { User } from 'firebase/auth';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
