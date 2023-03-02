@@ -10,29 +10,31 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
 
-  formLogin!: FormGroup;
+  loginUser!: FormGroup;
+  email: any;
+  password: any;
 
   constructor(private authService: AuthService, private router: Router) {
-    this.formLogin = new FormGroup({
+    this.loginUser = new FormGroup({
       email: new FormControl(),
       password: new FormControl()
     })
   }
 
-  onClick() {
-    
-  }
-  
   login() {
-    this.authService.login(this.formLogin.value.email, this.formLogin.value.password)
-    .then(resp => {
-      console.log(resp);
-      
-      this.router.navigate(['/404'])
-      // if (resp.user.email == this.formReg.value.email) {
-      // }
-    })
-    .catch(error => console.log(error));
+    this.email = this.loginUser.value.email;
+    this.password = this.loginUser.value.password;    
+
+    this.authService.login(this.email, this.password)
+      .then(resp => {
+        this.router.navigate(['/tournaments/home'])
+        // console.log(resp.user.getIdToken);
+
+        // if (resp.user.emailVerified) {
+        //   this.router.navigate(['/tournaments/home'])
+        // }
+      })
+      .catch(error => console.log(error));
   }
 }
 

@@ -14,7 +14,7 @@ export const environment = {
     measurementId: 'G-DVQFW1MXK5',
   },
   production: false,
-  baseUrl: 'http://localhost:8080'
+  baseUrl: 'http://localhost:3000'
 };
 
 /*

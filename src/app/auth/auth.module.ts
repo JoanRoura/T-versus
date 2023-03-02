@@ -23,7 +23,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    PrimeNgModule
+    PrimeNgModule,
   ]
 })
 export class AuthModule { }

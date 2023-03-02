@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-
-
 @NgModule({
   declarations: [],
   imports: [
