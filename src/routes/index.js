@@ -17,20 +17,19 @@ router.get('/users', async (req, res) => {
 
     console.log(users);
 
-    res.send(users)
-
     // Amb aixo retornes els usuaris del firestore
-    // res.send(users);
+    res.send(users)
 });
 
 // Crear usaris en el Firestore
 router.post('/new-user', async (req, res) => {
 
-    const { username, email, password, borndate } = req.body
+    // TODO: Add camp tokens to the new user created
+    const { id, username, email, password, borndate } = req.body
 
     console.log(username, password, email, borndate);
 
-    await db.collection('users').add({
+    await db.collection('users').doc(id).set({
         username, 
         email, 
         password,
@@ -41,19 +40,19 @@ router.post('/new-user', async (req, res) => {
 });
 
 // Obtenir un usuari del Firestore
-router.get('/one-user/:id', async (req, res) => {
+router.get('/get-user/:id', async (req, res) => {
 
     // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
     console.log(req.params.id)
-    const doc = await db.collection('users').doc(req.params.id).get()
+    const user = await db.collection('users').doc(req.params.id).get()
 
     console.log({
         id: doc.id,
         ...doc.data()
     })
 
-    res.send('Get one user')
-})
+    res.send(user)
+});
 
 // Eliminar un usuari del Firestore
 router.get('/delete-user/:id', async (req, res) => {
@@ -61,7 +60,7 @@ router.get('/delete-user/:id', async (req, res) => {
     await db.collection('users').doc(req.params.id).delete()
 
     res.send('User deleted')
-})
+});
 
 // Actualitzar un usuari del Firestore
 router.post('/update-user/:id', async (req, res) => {
@@ -74,8 +73,22 @@ router.post('/update-user/:id', async (req, res) => {
     await db.collection('users').doc(id).update(req.body)
 
     res.send("Updated user")
-}) 
+});
 
-// Endpoints dels torneijos 
+// Endpoints dels torneijos
+
+// Obtenit tots els torneijos
+router.get('/tournaments', async (req, res) => {
+    
+    const querySnapshot = await db.collection('tournament').get();
+
+    const tournaments = querySnapshot.docs.map(doc => ({
+        ...doc.data()
+    }));
+
+    console.log(tournaments)
+
+    res.send(tournaments);
+});
 
 module.exports = router;

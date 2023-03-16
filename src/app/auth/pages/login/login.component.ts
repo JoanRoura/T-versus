@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { AuthService } from '../../services/auth.service';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +13,82 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
 
-  loginUser!: FormGroup;
-  email: any;
-  password: any;
+  loginUser: FormGroup;
+  loading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.loginUser = new FormGroup({
-      email: new FormControl(),
-      password: new FormControl()
-    })
+  // Patterns 
+  usernamePattern: string = '([a-zA-Z]+) ([a-zA-Z]+)';
+  emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private toastr: ToastrService, 
+    private fb: FormBuilder) {
+      
+      this.loginUser = this.fb.group({
+        email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
+        password: [null, Validators.required]
+      });
+  }
+
+  invalidCamp(campo: string) {
+    return this.loginUser.get(campo)?.invalid
+      && this.loginUser.get(campo)?.touched
+  }
+
+  getClassCSS(campo: string): string {
+    return (this.loginUser.get(campo)?.invalid && this.loginUser.get(campo)?.touched)
+      ? "form-control is-invalid"
+      : "form-control";
+  }
+
+  get emailErrorMsg(): string {
+    const errors = this.loginUser.get('email')?.errors;
+
+    if (errors?.['required']) {
+      return 'El correo es requerido';
+    } else if (errors?.['pattern']) {
+      return 'El correo es invalido';
+    } 
+
+    return '';
+  }
+
+  get passwordErrorMsg(): string {
+    const errors = this.loginUser.get('password')?.errors;
+
+    if (errors?.['required']) {
+      return 'La contraseña es requerida';
+    }  
+    
+    return '';
   }
 
   login() {
-    this.email = this.loginUser.value.email;
-    this.password = this.loginUser.value.password;    
+    const email = this.loginUser.value.email;
+    const password = this.loginUser.value.password;    
 
-    this.authService.login(this.email, this.password)
+    this.loading = true;
+    this.authService.login(email, password)
       .then(resp => {
-        this.router.navigate(['/tournaments/home'])
-        // console.log(resp.user.getIdToken);
+        
+        if (resp.user?.emailVerified) {
+          this.router.navigate(['/tournaments/main']);
+        } else {
+          this.router.navigate(['/auth/verify-mail']);
+        }
+      })
+      .catch(error =>  {
+        this.loading = false;
+        this.toastr.error(this.authService.codeError(error.code), 'Error');
+      });
+  }
 
-        // if (resp.user.emailVerified) {
-        //   this.router.navigate(['/tournaments/home'])
-        // }
+  loginWithGoogle() {
+    this.authService.loginWithGoogle()
+      .then(resp => {
+        this.router.navigate(['/tournaments/main'])        
       })
       .catch(error => console.log(error));
   }

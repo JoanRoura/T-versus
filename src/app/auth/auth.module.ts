@@ -8,6 +8,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 import { VerifyMailComponent } from './pages/verify-mail/verify-mail.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { SharedModule } from '../shared/shared.module';
+
 
 
 
@@ -24,6 +26,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     FormsModule,
     ReactiveFormsModule,
     PrimeNgModule,
+    SharedModule
   ]
 })
 export class AuthModule { }

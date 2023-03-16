@@ -1,39 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { User } from '../../interfaces/user.interface';
+import { AuthUser } from '../../interfaces/auth-user.interface';
 import { AuthService } from '../../services/auth.service';
 
 import { ToastrService } from 'ngx-toastr';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styles: [
-  ]
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
-  registerUser: FormGroup;
-  // Si en comptes de fero en variables vols fer ho amb un objecta ho has de fer amb el user.
-  user!: User;
+  loading: boolean = false;
 
-  username: any;
-  email: any;
-  password: any;
-  borndate: any;
+  registerUser: FormGroup;
+  userdb!: AuthUser;
+
+  // Patterns 
+  usernamePattern: string = '([a-zA-Z]+)';
+  emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,) {
 
     this.registerUser = this.fb.group({
-      username: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required],
+      username: [null, [Validators.required, Validators.pattern(this.usernamePattern)]],
+      email: [null, [Validators.required, Validators.pattern(this.emailPattern)]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
+      confirmPassword: [null, Validators.required],
       borndate: [null, Validators.required]
     })
   }
@@ -42,51 +43,114 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  invalidCamp(campo: string) {
+    return this.registerUser.get(campo)?.invalid
+      && this.registerUser.get(campo)?.touched
+  }
+
+  getClassCSS(campo: string): string {
+    return (this.registerUser.get(campo)?.invalid && this.registerUser.get(campo)?.touched)
+      ? "form-control is-invalid"
+      : "form-control";
+  }
+
+  get usernameErrorMsg(): string {
+    const errors = this.registerUser.get('username')?.errors;
+
+    if (errors?.['required']) {
+      return 'El nombre de usuario es requerido';
+    } else if (errors?.['pattern']) {
+      return 'El nombre de usuario es invalido';
+    }
+
+    return '';
+  }
+
+  get emailErrorMsg(): string {
+    const errors = this.registerUser.get('email')?.errors;
+
+    if (errors?.['required']) {
+      return 'El correo es requerido';
+    } else if (errors?.['pattern']) {
+      return 'El correo es invalido';
+    }
+
+    return '';
+  }
+
+  get passwordErrorMsg(): string {
+    const errors = this.registerUser.get('password')?.errors;
+
+    if (errors?.['required']) {
+      return 'La contraseña es requerida';
+    } else if (errors?.['minlength']) {
+      return 'La contraseña debe tener 6 carcteres';
+    }
+
+    return '';
+  }
+
   register() {
-    this.username = this.registerUser.value.username;
-    this.email = this.registerUser.value.email;
-    this.password = this.registerUser.value.password;
-    this.borndate = this.registerUser.value.borndate;
 
-    // console.log(this.borndate, this.username, this.password, this.email);
+    const username = this.registerUser.value.username;
+    const email = this.registerUser.value.email;
+    const password = this.registerUser.value.password;
+    const confirmPassword = this.registerUser.value.confirmPassword;
+    const borndate = this.registerUser.value.borndate;
 
-    this.authService.register(this.email, this.password)
+    if (password !== confirmPassword) {
+      this.toastr.error('Las contraseñas ingresadas deben ser las mismas ', 'Error');
+      return;
+    }
+
+    this.loading = true;
+
+    this.authService.register(email, password)
       .then(resp => {
-        console.log(resp);
+        this.loading = false;
+        // this.toastr.success('El usuario fue registrado con exito!', 'Usuario registrado');
+        // this.router.navigate(['/auth/login'])
 
-        this.router.navigate(['/auth/verify-mail'])
+        this.userdb = {
+          id: resp.user.uid,
+          username: username,
+          email: email,
+          password: password,
+          borndate: borndate
+        }
 
-        this.authService.createUser(this.username, this.email, this.password, this.borndate)
-          .subscribe(resp => {
-            console.log(resp);
-          })
+        this.createUserDB();
+
+        this.verifyMail();
+
+        // Actualitza el usuari del Firestore
+        // this.authService.updateUser(resp.user.uid, username, email, password, borndate)
+        //   .subscribe(resp => {
+        //     console.log(resp);
+        //   });
 
       })
       .catch((error) => {
-        console.log(error);
-        this.toastr.error(this.firebaseError(error.code), 'Error');
+        this.loading = false;
+        this.toastr.error(this.authService.codeError(error.code), 'Error');
       });
 
+    this.router.navigate(['/auth/login'])
+  }
 
-
-    this.authService.updateUser('sC9CfNqHMFbKY3sbPlr7', this.username, this.email, this.password, this.borndate)
+  createUserDB() {
+    this.authService.createUser(this.userdb)
       .subscribe(resp => {
         console.log(resp);
       });
-
-    // this.router.navigate(['/auth/login'])
   }
 
-  firebaseError(code: string) {
-    switch (code) {
-      case 'auth/email-already-in-use':
-        return 'El usuario ya existe'
-      case 'auth/weak-password':
-        return 'La contraseña es muy debil'
-      case 'auth/invalid-email':
-        return 'Correo invalido'
-      default:
-        return 'Error desconocido'
-    }
+  verifyMail() {
+    this.authService.verifyMail()
+      .then(() => {
+        this.toastr.info('Le enviamos un correo electronico para su verificacion', 'Verificar correo');
+        this.router.navigate(['/auth/login'])
+      })
+      .catch(error => console.log(error));
   }
 }

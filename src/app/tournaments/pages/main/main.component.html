@@ -1,0 +1,63 @@
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+      aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+      aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+      aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../../../../assets/images/valorant6.jpg" class="d-block w-100" alt="Image Valorant">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Torneos diarios</h5>
+        <p>¿Estas listo para dar el salto a un nuevo nivel de competencia? ¡Unete a nuestros torneos diarios gratuitos!
+        </p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../../../../assets/images/valorant5.png" class="d-block w-100" alt="Image Valorant">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Torneos diarios</h5>
+        <p>¿Estas listo para dar el salto a un nuevo nivel de competencia? ¡Unete a nuestros torneos diarios gratuitos!
+        </p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../../../../assets/images/valorant8.jpg" class="d-block w-100" alt="Image Valorant">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Torneos diarios</h5>
+        <p>¿Estas listo para dar el salto a un nuevo nivel de competencia? ¡Unete a nuestros torneos diarios gratuitos!
+        </p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="flex flex-row flex-wrap">
+
+  <div> </div>
+
+  <p-card *ngFor="let tournament of tournaments" header="{{ tournament.name }}" subheader="{{ tournament.game | titlecase }}"
+    [style]="{width: '360px'}" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <img alt="Imagen Valorant" src="../../../../assets/images/valorant1.jpg">
+    </ng-template>
+    <p> {{ tournament.description }} </p>
+    <ng-template pTemplate="footer">
+  
+      <button pButton label="Entrar" icon="pi pi-play" class="p-button-raised p-button-rounded p-button-text"></button>
+      <button pButton  label="Saber Mas" icon="pi pi-info-circle" class="p-button-info  p-button-rounded" [style]="{'margin-left': '.5em'}"> </button>
+  
+    </ng-template>
+  </p-card>
+</div>

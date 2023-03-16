@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+/* :host {
+    display: block;
+    height: 100%;
+} */
 
 html, body {
     height: 100%;
@@ -14,14 +18,7 @@ html, body {
     justify-content: center;
     height: 100%;
     background-color: #29262E;
-}
-
-.wrapper2 {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    background-color: #29262E;
-
+    overflow-y: auto;
 }
 
 .logo {
@@ -38,3 +35,10 @@ html, body {
     text-align: center;
 }
 
+.form-floating {
+    text-align: start;
+}
+
+.errorLabel {
+    margin-left: 5px;
+}

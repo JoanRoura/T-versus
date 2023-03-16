@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { Auth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [],

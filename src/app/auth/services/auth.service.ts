@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, getAuth } from '@angular/fire/auth';
-import { tap } from 'rxjs';
+import {
+  Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendPasswordResetEmail, sendEmailVerification, signOut, signInWithPopup,
+  GoogleAuthProvider
+} from '@angular/fire/auth';
+// import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { environment } from '../../../environments/environment';
-import { User } from '../interfaces/user.interface';
+import { AuthUser } from '../interfaces/auth-user.interface';
+import { FirebaseCodeErrorEnum } from '../utils/firebase-code-error';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,39 +20,106 @@ export class AuthService {
 
   private _baseUrl: string = environment.baseUrl;
   private _user: any | undefined;
-  user = this.auth.currentUser;
 
-  constructor(private auth: Auth, private http: HttpClient) { }
+  get getCurrentUser() {
+    return { ...this._user };
+  }
+
+  constructor(private auth: Auth, private http: HttpClient) {
+    // Obtenir el 'currentUser'
+    this.auth.onAuthStateChanged(user => {
+      console.log(user);
+
+      if (user) {
+        this._user = user;
+      }
+    });
+  }
+
+  // Gestio de error de Firebase Auth
+  codeError(code: string) {
+    switch (code) {
+      // Correu ja existeix
+      case FirebaseCodeErrorEnum.EmailAlreadyInUse:
+        return 'El usuario ya existe';
+
+      // Contrasenya debil
+      case FirebaseCodeErrorEnum.WeakPassword:
+        return 'La contraseña es muy debil';
+
+      // Correo invalid
+      case FirebaseCodeErrorEnum.InvalidEmail:
+        return 'Correo invalido';
+
+      // El usuari no existeix
+      case FirebaseCodeErrorEnum.UserNotFound:
+        return 'El usuario no existe';
+
+      // Contrasenya incorrecta
+      case FirebaseCodeErrorEnum.WrongPassword:
+        return 'Contraseña incorrecta';
+
+      default:
+        return 'Error desconocido'
+    }
+  }
+
+  currentUser() {
+    this.auth.onAuthStateChanged(user => {
+      console.log(user);
+
+      if (user) {
+        this._user = user;
+
+      } else return console.log("No s'ha pogut guardar");
+    });
+  }
 
   register(email: string, password: string) {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
-  // .then(resp => {
-  //   this._user = resp.user;
-  // }
-
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  // sendEmail() {
-  //   return sendEmailVerification(_user)
-  // }
+  loginWithGoogle() {
+    return signInWithPopup(this.auth, new GoogleAuthProvider());
+  }
+
+  logout() {
+    return signOut(this.auth);
+  }
+
+  resetEmail(email: string) {
+    return sendPasswordResetEmail(this.auth, email);
+  }
+
+  verifyMail() {
+    return sendEmailVerification(this._user);
+
+    // this.auth.onAuthStateChanged(user => {
+    //   console.log(user);
+
+    //   if (user != null) {
+    //     return sendEmailVerification(user);
+    //   } else return console.log("error");
+    // });
+  }
 
   // Llistar usuaris de la DB
-  listUsers() {
-    return this.http.get<any>(`${this._baseUrl}/users`);
+  listUsers(): Observable<AuthUser> {
+    return this.http.get<AuthUser>(`${this._baseUrl}/users`);
   }
 
   // Crear usuaris a la DB
-  createUser(username: string, email: string, password: string, borndate: string) {
-    return this.http.post<any>(`${this._baseUrl}/new-user`, {username, email, password, borndate});
+  createUser(user: AuthUser): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this._baseUrl}/new-user`, user);
   }
 
   // Obtenir un usuari de la DB
-  getOneUser(id: string) {
-    return this.http.get<any>(`${this._baseUrl}/edit-user/${id}`);
+  getOneUser(id: string): Observable<AuthUser> {
+    return this.http.get<AuthUser>(`${this._baseUrl}/edit-user/${id}`);
   }
 
   // Eliminar usuaris de la DB
@@ -55,7 +128,7 @@ export class AuthService {
   }
 
   // Actualitzar usuaris de la DB
-  updateUser(id: string, username: string,  email: string, password: string, borndate: string) {
-    return this.http.post(`${this._baseUrl}/update-user/${id}`, {username, email, password, borndate});
+  updateUser(id: string, username: string, email: string, password: string, borndate: string) {
+    return this.http.post(`${this._baseUrl}/update-user/${id}`, { username, email, password, borndate });
   }
 }

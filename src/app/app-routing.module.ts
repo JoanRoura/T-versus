@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { SharedModule } from './shared/shared.module';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
   { 
@@ -13,7 +14,7 @@ const routes: Routes = [
   { 
     path: 'tournaments',
     loadChildren: () => import('./tournaments/tournaments.module').then( m => m.TournamentsModule),
-    canLoad: [AuthGuard]
+    ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
   },
   {
     path: '404',
@@ -21,7 +22,7 @@ const routes: Routes = [
   },
   {
    path: '**',
-   redirectTo: '404' 
+   redirectTo: 'auth' 
   }
 ];
 

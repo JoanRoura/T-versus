@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './pages/home/home.component';
+import { MainComponent } from './pages/main/main.component';
 import { ChoseTournamentComponent } from './pages/chose-tournament/chose-tournament.component';
 import { CreateTournamentComponent } from './pages/create-tournament/create-tournament.component';
 import { SearchTournamentComponent } from './pages/search-tournament/search-tournament.component';
@@ -9,10 +10,11 @@ import { SearchTournamentComponent } from './pages/search-tournament/search-tour
 const routes: Routes = [
   {
     path: '',
+    component: HomeComponent,
     children: [
       {
-        path: 'home',
-        component: HomeComponent
+        path: 'main',
+        component: MainComponent
       },
       {
         path: 'search-tournament',

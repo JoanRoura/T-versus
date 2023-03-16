@@ -1,35 +1,53 @@
 <div class="wrapper">
-    <div class="body">
-        <img class="logo" src="../../../../assets/images/logoVersusWhite.png" alt="Imatge corporativa de T-Versus" s>
+    <div *ngIf="!loading" class="body">
+        <img class="logo" src="../../../../assets/images/logoVersusWhite.png" alt="Imagen corporativa de T-Versus" s>
         <h1 class="text_layout">Register</h1>
 
         <form (ngSubmit)="register()"  [formGroup]="registerUser">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" formControlName="username" placeholder="Name">
+                <input type="text" [class]="getClassCSS('username')" formControlName="username" placeholder="Name">
                 <label>Username</label>
+                <span *ngIf="invalidCamp('username')" 
+                      class="text-danger errorLabel">
+                    {{ usernameErrorMsg }}
+                </span>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" formControlName="email" placeholder="name@example.com">
+                <input type="email" [class]="getClassCSS('email')" formControlName="email" placeholder="name@example.com">
                 <label>Email</label>
+                <span *ngIf="invalidCamp('email')" 
+                      class="text-danger errorLabel">
+                    {{ emailErrorMsg }}
+                </span>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                <input type="password" [class]="getClassCSS('password')" formControlName="password" placeholder="Password">
                 <label>Password</label>
+                <span *ngIf="invalidCamp('password')"
+                      class="text-danger errorLabel">
+                    {{ passwordErrorMsg }}
+                </span>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="date" class="form-control" formControlName="borndate" placeholder="Born Date">
+                <input type="password" [class]="getClassCSS('confirmPassword')" formControlName="confirmPassword" placeholder="Password">
+                <label>Confirm Password</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" [class]="getClassCSS('borndate')" formControlName="borndate" placeholder="Born Date">
                 <label>Born Date</label>
             </div>
 
             <div class="d-grid gap-2 mb-3">
-                <button class="btn btn-primary btn-lg" type="submit">Register</button>
+                <button class="btn btn-primary btn-lg" type="submit">Register</button>  <!-- [disabled]="registerUser.invalid" -->
             </div>
             <a routerLink="/auth/login">Volver</a>
         </form>
     </div>
+    <app-spinner *ngIf="loading"></app-spinner>
 </div>
 
 
