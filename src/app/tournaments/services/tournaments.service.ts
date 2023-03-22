@@ -21,9 +21,11 @@ export class TournamentsService {
 
   constructor(private auth: Auth, private http: HttpClient) { }
 
-
   listTournaments(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(`${this._baseUrl}/tournaments`);
   }
 
+  getOneTournament(id: string): Observable<Tournament> {
+    return this.http.get<Tournament>(`${this._baseUrl}/get-tournament/${id}`);
+  }
 }

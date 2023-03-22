@@ -30,8 +30,8 @@ router.post('/new-user', async (req, res) => {
     console.log(username, password, email, borndate);
 
     await db.collection('users').doc(id).set({
-        username, 
-        email, 
+        username,
+        email,
         password,
         borndate
     });
@@ -43,16 +43,36 @@ router.post('/new-user', async (req, res) => {
 router.get('/get-user/:id', async (req, res) => {
 
     // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
-    console.log(req.params.id)
-    const user = await db.collection('users').doc(req.params.id).get()
+    console.log(req.params.id);
+    const user = await db.collection('users').doc(req.params.id).get();
 
-    console.log({
-        id: doc.id,
-        ...doc.data()
-    })
+    // console.log({
+    //     ...doc.data()
+    // })
 
-    res.send(user)
+    res.send(user.data())
 });
+
+// router.get('/get-user/:id', async (req, res) => {
+
+//     // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
+//     try {
+//         const userId = req.params.id;
+//         const userDoc = await db.collection('users').doc(userId).get();
+
+//         console.log(userDoc)
+
+//         if (!userDoc.exists) {
+//             res.status(404).send('User not found');
+//         } else {
+//             const userData = userDoc.data();
+//             res.send(userData);
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Server error');
+//     }
+// });
 
 // Eliminar un usuari del Firestore
 router.get('/delete-user/:id', async (req, res) => {
@@ -64,31 +84,71 @@ router.get('/delete-user/:id', async (req, res) => {
 
 // Actualitzar un usuari del Firestore
 router.post('/update-user/:id', async (req, res) => {
-    
-    console.log(req.params.id)
-    console.log(req.body)
 
-    const { id } = req.params
+    console.log(req.params.id);
+    console.log(req.body);
 
-    await db.collection('users').doc(id).update(req.body)
+    const { id } = req.params;
 
-    res.send("Updated user")
+    await db.collection('users').doc(id).update(req.body);
+
+    res.send("Updated user");
 });
 
 // Endpoints dels torneijos
 
 // Obtenit tots els torneijos
 router.get('/tournaments', async (req, res) => {
-    
+
     const querySnapshot = await db.collection('tournament').get();
 
     const tournaments = querySnapshot.docs.map(doc => ({
         ...doc.data()
     }));
 
-    console.log(tournaments)
+    console.log(tournaments);
 
     res.send(tournaments);
 });
+
+// Obtenir un torneig del Firestore
+
+router.get('/get-tournament/:id', async (req, res) => {
+    
+    try {
+        const tournamentId = req.params.id;
+        const collectionRef = db.collection('tournament');
+        const querySnapshot = await collectionRef.where('id', '==', tournamentId).get();
+
+        if (!querySnapshot.exists) {
+            res.status(404).send('Tournament not found');
+        } else {
+            const tournaments = querySnapshot.docs.map(doc => ({
+                ...doc.data()
+            }));
+            res.send(tournaments);
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+// Crear un torneig
+
+router.post('/new-tournament', async (req, res) => {
+
+    // TODO: Add camp tokens to the new user created
+    const {description,game,id,image,name,organizer,price} = req.body
+
+    await db.collection('tournament').doc(id).set({
+        description,game,id,image,name,organizer,price
+    });
+
+    res.send('New tournament created');
+});
+
+
 
 module.exports = router;

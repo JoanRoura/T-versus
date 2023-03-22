@@ -110,9 +110,9 @@ export class RegisterComponent implements OnInit {
         this.loading = false;
         // this.toastr.success('El usuario fue registrado con exito!', 'Usuario registrado');
         // this.router.navigate(['/auth/login'])
-
+        
         this.userdb = {
-          id: resp.user.uid,
+          id: email,
           username: username,
           email: email,
           password: password,

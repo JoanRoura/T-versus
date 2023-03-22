@@ -1,0 +1,29 @@
+<p-card header="{{ tournament.name }}" 
+        subheader="{{ tournament.game | titlecase }}" 
+        [style]="{width: '360px'}"
+        styleClass="p-card-shadow col-12 md:col-3 lg:col-2">
+
+    <ng-template pTemplate="header">
+        <img alt="Imagen Valorant" src="../../../../assets/images/valorant1.jpg">
+    </ng-template>
+
+    <p> {{ tournament.description }} </p>
+
+    <ng-template pTemplate="footer">
+
+        <button pButton 
+                label="Entrar" 
+                icon="pi pi-play"
+                class="p-button-raised p-button-rounded p-button-text"
+                [routerLink]="['/tournaments', tournament.id]">
+        </button>
+        <button pButton 
+                label="Saber Mas" 
+                icon="pi pi-info-circle" 
+                class="p-button-info  p-button-rounded"
+                [style]="{'margin-left': '.5em'}"
+                [routerLink]="['/tournaments/edit-tournament', tournament.id]"> 
+        </button>
+
+    </ng-template>
+</p-card>

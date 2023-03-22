@@ -10,7 +10,10 @@ import { SearchTournamentComponent } from './pages/search-tournament/search-tour
 import { ChoseTournamentComponent } from './pages/chose-tournament/chose-tournament.component';
 import { CreateTournamentComponent } from './pages/create-tournament/create-tournament.component';
 
-import { ListadoTorneosComponent } from './components/listado-torneos/listado-torneos.component';
+import { TournamentCardComponent } from './components/tournament-card/tournament-card.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { EditTournamentComponent } from './pages/edit-tournament/edit-tournament.component';
+import { TournamentComponent } from './pages/tournament/tournament.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { ListadoTorneosComponent } from './components/listado-torneos/listado-to
     ChoseTournamentComponent,
     CreateTournamentComponent,
     MainComponent,
-    ListadoTorneosComponent
+    TournamentCardComponent,
+    CarouselComponent,
+    EditTournamentComponent,
+    TournamentComponent
   ],
   imports: [
     CommonModule,

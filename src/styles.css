@@ -12,6 +12,10 @@ html, body {
     color: whitesmoke;
 }
 
+.bg-principal-color {
+    background-color: #29262E;
+}
+
 .wrapper {
     display: flex;
     align-items: center;
