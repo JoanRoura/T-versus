@@ -114,7 +114,7 @@ router.get('/tournaments', async (req, res) => {
 // Obtenir un torneig del Firestore
 
 router.get('/get-tournament/:id', async (req, res) => {
-    
+
     try {
         const tournamentId = req.params.id;
         const collectionRef = db.collection('tournament');
@@ -147,6 +147,29 @@ router.post('/new-tournament', async (req, res) => {
     });
 
     res.send('New tournament created');
+});
+
+
+router.get('/get-tournamentUnofficial/', async (req, res) => {
+
+  try {
+      const tournamentType = "unofficial";
+      const collectionRef = db.collection('tournament');
+      const querySnapshot = await collectionRef.where('type', '==', tournamentType).get();
+
+      if (querySnapshot.empty) {
+          res.status(404).send('Tournaments not found');
+      } else {
+          const tournaments = querySnapshot.docs.map(doc => ({
+              ...doc.data()
+          }));
+          res.send(tournaments);
+      }
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error');
+  }
 });
 
 
