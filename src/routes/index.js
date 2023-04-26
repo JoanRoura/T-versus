@@ -86,38 +86,7 @@ router.get('/tournaments', async (req, res) => {
 // Obtenir un torneig del Firestore
 
 router.get('/get-tournament/:id', async (req, res) => {
-
-    // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
-    const tournamentId = req.params.id;
-    const tournament = await db.collection('tournaments').doc(tournamentId).get();
-
-    res.send(tournament.data());
-});
-
-// Crear un torneig
-
-router.post('/new-tournament', async (req, res) => {
-
-    const { description, game, id, image, name, organizer, price, type } = req.body
-
-    await db.collection('tournaments').doc(id).set({
-        description,
-        game,
-        id,
-        image,
-        name,
-        organizer,
-        price,
-        type
-    });
-
-    res.send('New tournament created');
-});
-
-// Obtenir jugador per torneig
-
-router.get('/get-players-by-tournament/:id', async (req, res) => {
-
+    
     try {
         const { id } = req.params;
         const collectionRef = db.collection('users');
@@ -141,6 +110,71 @@ router.get('/get-players-by-tournament/:id', async (req, res) => {
 // Obtenir torneijos oficials
 
 
-// Obtenir torneijos no oficials 
+
+router.get('/get-tournaments-official/', async (req, res) => {
+
+    try {
+        const collectionRef = db.collection('tournament');
+        const querySnapshot = await collectionRef.where('type', '==', "official").get();
+
+        if (querySnapshot.empty) {
+            res.status(404).send('Tournaments not found');
+        } else {
+            const tournaments = querySnapshot.docs.map(doc => ({
+                ...doc.data()
+            }));
+            res.send(tournaments);
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+router.get('/get-tournaments-unofficial/', async (req, res) => {
+
+  try {
+      const collectionRef = db.collection('tournament');
+      const querySnapshot = await collectionRef.where('type', '==', "unofficial").get();
+
+      if (querySnapshot.empty) {
+          res.status(404).send('Tournaments not found');
+      } else {
+          const tournaments = querySnapshot.docs.map(doc => ({
+              ...doc.data()
+          }));
+          res.send(tournaments);
+      }
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error');
+  }
+});
+
+router.post('/buy-tokens/:id', async (req, res) => {
+
+    console.log(req.params.id);
+    console.log(req.body);
+
+    const { id } = req.params;
+
+    await db.collection('users').doc(id).update(req.body);
+
+    res.send(req.body);
+});
+
+router.post('/join-tournament/:id', async (req, res) => {
+
+    console.log(req.params.id);
+    console.log(req.body);
+
+    const { id } = req.params;
+
+    await db.collection('users').doc(id).update(req.body);
+
+    res.send(req.body);
+});
 
 module.exports = router;
