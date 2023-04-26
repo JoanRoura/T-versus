@@ -14,6 +14,9 @@ import { TournamentCardComponent } from './components/tournament-card/tournament
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { EditTournamentComponent } from './pages/edit-tournament/edit-tournament.component';
 import { TournamentComponent } from './pages/tournament/tournament.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { ImagePipe } from './pipes/image.pipe';
 
 @NgModule({
   declarations: [
@@ -25,13 +28,15 @@ import { TournamentComponent } from './pages/tournament/tournament.component';
     TournamentCardComponent,
     CarouselComponent,
     EditTournamentComponent,
-    TournamentComponent
+    TournamentComponent,
+    ImagePipe
   ],
   imports: [
     CommonModule,
     TournamentsRoutingModule,
-    PrimeNgModule
-    
+    ReactiveFormsModule,
+    PrimeNgModule,
+    SharedModule
   ]
 })
 export class TournamentsModule { }

@@ -3,7 +3,7 @@
         <img class="logo" src="../../../../assets/images/logoVersusWhite.png" alt="Imagen corporativa de T-Versus" s>
         <h1 class="text_layout">Register</h1>
 
-        <form (ngSubmit)="register()"  [formGroup]="registerUser">
+        <form (ngSubmit)="register()" [formGroup]="registerUser">
             <div class="form-floating mb-3">
                 <input type="text" [class]="getClassCSS('username')" formControlName="username" placeholder="Name">
                 <label>Username</label>

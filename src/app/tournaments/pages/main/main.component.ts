@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentsService } from '../../services/tournaments.service';
-import { Tournament } from '../../interfaces/tournaments.interface';
+import { Tournament } from '../../interfaces/tournament.interface';
 
 @Component({
   selector: 'app-main',

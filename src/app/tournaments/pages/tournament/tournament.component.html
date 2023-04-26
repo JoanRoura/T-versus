@@ -1,1 +1,52 @@
-<p>tournament works!</p>
+<div class="text_layout bg-secondary-color h-100">
+
+    <div *ngIf="!loading" class="row mx-3">
+        <div *ngIf="tournament">
+
+
+        </div>
+        <div class="col-12 col-md-6">
+            <h4>{{ tournament.game }}</h4>
+            <p-divider></p-divider>
+            <br>
+            <img class="w-full" [src]="tournament | image">
+        </div>
+
+        <div class="col-12 col-md-6">
+            <h4>{{ tournament.name }}</h4>
+            <p-divider></p-divider>
+
+            <ul>
+                <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
+                <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
+                <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>            
+            </ul>
+
+            <button 
+                pButton 
+                type="button" 
+                label="Regresar" 
+                class="p-button-secondary p-button-text" 
+                (click)="goBack()">
+
+            </button>
+        </div>
+
+        <div class="col-12">
+            <h4>Players </h4>
+            <p-divider></p-divider>
+
+            <!-- <div *ngFor="">
+
+            </div> -->
+        </div>
+
+        
+
+
+    </div>
+
+    <div *ngIf="loading">
+        <app-spinner></app-spinner>
+    </div>
+</div>

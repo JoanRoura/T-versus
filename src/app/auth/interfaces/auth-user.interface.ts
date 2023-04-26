@@ -1,8 +1,17 @@
 export interface AuthUser {
-    id:       string;
-    password: string;
-    tokens?:  string;
-    borndate: string;
-    email:    string;
-    username: string;
+    borndate?:      string;
+    email?:         string;
+    username?:      string;
+    password?:      string;
+    tokens?:        number;
+    tournament_id?: string;
 }
+
+// export interface AuthUser {
+//     id:       string;
+//     password: string;
+//     tokens?:  string;
+//     borndate: string;
+//     email:    string;
+//     username: string;
+// }

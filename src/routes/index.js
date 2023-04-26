@@ -43,36 +43,10 @@ router.post('/new-user', async (req, res) => {
 router.get('/get-user/:id', async (req, res) => {
 
     // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
-    console.log(req.params.id);
     const user = await db.collection('users').doc(req.params.id).get();
-
-    // console.log({
-    //     ...doc.data()
-    // })
 
     res.send(user.data())
 });
-
-// router.get('/get-user/:id', async (req, res) => {
-
-//     // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
-//     try {
-//         const userId = req.params.id;
-//         const userDoc = await db.collection('users').doc(userId).get();
-
-//         console.log(userDoc)
-
-//         if (!userDoc.exists) {
-//             res.status(404).send('User not found');
-//         } else {
-//             const userData = userDoc.data();
-//             res.send(userData);
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Server error');
-//     }
-// });
 
 // Eliminar un usuari del Firestore
 router.get('/delete-user/:id', async (req, res) => {
@@ -100,13 +74,11 @@ router.post('/update-user/:id', async (req, res) => {
 // Obtenit tots els torneijos
 router.get('/tournaments', async (req, res) => {
 
-    const querySnapshot = await db.collection('tournament').get();
+    const querySnapshot = await db.collection('tournaments').get();
 
     const tournaments = querySnapshot.docs.map(doc => ({
         ...doc.data()
     }));
-
-    console.log(tournaments);
 
     res.send(tournaments);
 });
@@ -114,41 +86,61 @@ router.get('/tournaments', async (req, res) => {
 // Obtenir un torneig del Firestore
 
 router.get('/get-tournament/:id', async (req, res) => {
-    
-    try {
-        const tournamentId = req.params.id;
-        const collectionRef = db.collection('tournament');
-        const querySnapshot = await collectionRef.where('id', '==', tournamentId).get();
 
-        if (!querySnapshot.exists) {
-            res.status(404).send('Tournament not found');
-        } else {
-            const tournaments = querySnapshot.docs.map(doc => ({
-                ...doc.data()
-            }));
-            res.send(tournaments);
-        }
+    // Per poder buscar un usuari en concret es passa la id per els 'params' que son els parametres de la url
+    const tournamentId = req.params.id;
+    const tournament = await db.collection('tournaments').doc(tournamentId).get();
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
-    }
+    res.send(tournament.data());
 });
 
 // Crear un torneig
 
 router.post('/new-tournament', async (req, res) => {
 
-    // TODO: Add camp tokens to the new user created
-    const {description,game,id,image,name,organizer,price} = req.body
+    const { description, game, id, image, name, organizer, price, type } = req.body
 
-    await db.collection('tournament').doc(id).set({
-        description,game,id,image,name,organizer,price
+    await db.collection('tournaments').doc(id).set({
+        description,
+        game,
+        id,
+        image,
+        name,
+        organizer,
+        price,
+        type
     });
 
     res.send('New tournament created');
 });
 
+// Obtenir jugador per torneig
 
+router.get('/get-players-by-tournament/:id', async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const collectionRef = db.collection('users');
+        const querySnapshot = await collectionRef.where('tournament_id', '==', id).get();
+
+
+        if (querySnapshot.empty) {
+            res.status(404).send('Tournaments without players');
+        } else {
+            const users = querySnapshot.docs.map(doc => ({
+                ...doc.data()
+            }));
+            res.send(users);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+// Obtenir torneijos oficials
+
+
+// Obtenir torneijos no oficials 
 
 module.exports = router;

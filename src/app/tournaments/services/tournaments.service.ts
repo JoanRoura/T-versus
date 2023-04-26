@@ -9,8 +9,9 @@ import {
 
 import { environment } from '../../../environments/environment';
 
-import { Tournament } from '../interfaces/tournaments.interface';
+import { Tournament } from '../interfaces/tournament.interface';
 import { Observable } from 'rxjs';
+import { AuthUser } from 'src/app/auth/interfaces/auth-user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,14 @@ export class TournamentsService {
 
   getOneTournament(id: string): Observable<Tournament> {
     return this.http.get<Tournament>(`${this._baseUrl}/get-tournament/${id}`);
+  }
+
+  createTournament(tournament: Tournament): Observable<Tournament> {
+    return this.http.post<Tournament>(`${this._baseUrl}/new-tournament`, tournament);
+  }
+
+  getUsersInTournament(id: string): Observable<AuthUser[]> {
+    return this.http.get<AuthUser[]>(`${this._baseUrl}/get-players-by-tournament/${id}`)
+
   }
 }

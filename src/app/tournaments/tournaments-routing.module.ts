@@ -39,6 +39,10 @@ const routes: Routes = [
         component: CreateTournamentComponent
       },
       {
+        path: ':id',
+        component: TournamentComponent
+      },
+      {
         path: '**',
         redirectTo: 'main'
       }

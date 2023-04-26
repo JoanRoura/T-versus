@@ -9,8 +9,8 @@ const app = express();
 app.use(morgan('dev'));
 // Quan s'envi un metode 'post' atraves de un formulari, el servidor el podra entendra i es podra gestionar
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(require('./src/routes/index'));
 

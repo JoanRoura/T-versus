@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, Validators.required],
       borndate: [null, Validators.required]
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -112,11 +112,12 @@ export class RegisterComponent implements OnInit {
         // this.router.navigate(['/auth/login'])
         
         this.userdb = {
-          id: email,
           username: username,
           email: email,
           password: password,
-          borndate: borndate
+          borndate: borndate,
+          tokens: 0,
+          tournament_id: ""
         }
 
         this.createUserDB();
