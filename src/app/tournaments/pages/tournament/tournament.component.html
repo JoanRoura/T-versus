@@ -1,49 +1,59 @@
 <div class="text_layout bg-secondary-color h-100">
 
-    <div *ngIf="!loading" class="row mx-3">
-        <div *ngIf="tournament">
+    <div *ngIf="!loading" class="container">
 
+        <div class="row pt-3">
+            <div class="col-12 col-md-6">
+                <h4>{{ tournament.game }}</h4>
+                <p-divider></p-divider>
+                <br>
+                <img class="w-full rounded-3" [src]="tournament | image">
+            </div>
+    
+            <div class="col-12 col-md-6">
+                <h4>{{ tournament.name }}</h4>
+                <p-divider></p-divider>
+    
+                <ul class="pb-4">
+                    <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
+                    <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
+                    <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>            
+                </ul>
 
+                <button 
+                    pButton 
+                    type="button" 
+                    label="Join Tournament" 
+                    class="p-button-secondary p-button-text" 
+                    (click)="joinTournament()">
+                </button>
+    
+                <button 
+                    pButton 
+                    type="button" 
+                    label="Go Back" 
+                    class="p-button-secondary p-button-text" 
+                    (click)="goBack()">
+                </button>
+            
+            </div>
+    
+            <div class="col-12 mt-3">
+                <h4>Players in the Tournament</h4>
+                <p-divider></p-divider>
+    
+                <div *ngFor="let user of usersInTournament" class="flex align-items-center mb-3">
+
+                    <img src="{{ user.image }}" alt="Profile pic" class="rounded-circle w-3rem">        
+                    <p class="ml-3 mb-0"> {{ user.username }} </p>
+            
+                </div>  
+                
+            </div>
+
+            
         </div>
-        <div class="col-12 col-md-6">
-            <h4>{{ tournament.game }}</h4>
-            <p-divider></p-divider>
-            <br>
-            <img class="w-full" [src]="tournament | image">
-        </div>
-
-        <div class="col-12 col-md-6">
-            <h4>{{ tournament.name }}</h4>
-            <p-divider></p-divider>
-
-            <ul>
-                <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
-                <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
-                <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>            
-            </ul>
-
-            <button 
-                pButton 
-                type="button" 
-                label="Regresar" 
-                class="p-button-secondary p-button-text" 
-                (click)="goBack()">
-
-            </button>
-        </div>
-
-        <div class="col-12">
-            <h4>Players </h4>
-            <p-divider></p-divider>
-
-            <!-- <div *ngFor="">
-
-            </div> -->
-        </div>
-
         
-
-
     </div>
 
     <div *ngIf="loading">

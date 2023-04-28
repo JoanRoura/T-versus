@@ -119,7 +119,7 @@ export class AuthService {
 
   // Obtenir un usuari de la DB
   getOneUser(id: string): Observable<AuthUser> {
-    return this.http.get<AuthUser>(`${this._baseUrl}/edit-user/${id}`);
+    return this.http.get<AuthUser>(`${this._baseUrl}/get-user/${id}`);
   }
 
   // Eliminar usuaris de la DB

@@ -7,6 +7,6 @@ import { Tournament } from '../interfaces/tournament.interface';
 export class ImagePipe implements PipeTransform {
 
   transform(tournament: Tournament): String {
-    return `../../../../assets/images/${ tournament.image }.png`;
+    return `../../../../assets/images/${tournament.image}.png`;
   }
 }

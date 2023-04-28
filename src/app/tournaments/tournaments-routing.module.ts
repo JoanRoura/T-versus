@@ -19,10 +19,6 @@ const routes: Routes = [
         component: MainComponent
       },
       {
-        path: ':id',
-        component: TournamentComponent
-      },
-      {
         path: 'edit-tournament/:id',
         component: EditTournamentComponent
       },

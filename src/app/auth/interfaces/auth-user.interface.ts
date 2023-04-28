@@ -5,6 +5,8 @@ export interface AuthUser {
     password?:      string;
     tokens?:        number;
     tournament_id?: string;
+    image?:         string;
+    isJoined?:      boolean;
 }
 
 // export interface AuthUser {
