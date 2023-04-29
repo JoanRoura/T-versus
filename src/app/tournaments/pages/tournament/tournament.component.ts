@@ -56,7 +56,7 @@ export class TournamentComponent implements OnInit {
         this.usersInTournament = users
       });
   }
-
+  
   goBack(): void {
     this.router.navigate(['/tournaments/main']);
   }

@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../auth/services/auth.service';
-import { signOut } from 'firebase/auth';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-home-store',
+  templateUrl: './home-store.component.html',
+  styleUrls: ['./home-store.component.css']
 })
-export class HomeComponent {
-
+export class HomeStoreComponent {
   get user() {
     return this.authService.getCurrentUser;
   }
@@ -26,6 +24,4 @@ export class HomeComponent {
       })
       .catch(error => console.log(error));
   }
-
-
 }
