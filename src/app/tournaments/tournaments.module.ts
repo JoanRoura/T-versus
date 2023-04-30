@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 
 import { TournamentsRoutingModule } from './tournaments-routing.module';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
@@ -33,6 +33,7 @@ import { ImagePipe } from './pipes/image.pipe';
     ImagePipe
   ],
   imports: [
+    CommonModule,
     TournamentsRoutingModule,
     ReactiveFormsModule,
     PrimeNgModule,
