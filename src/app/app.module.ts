@@ -15,11 +15,13 @@ import { HttpClientModule } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ShopGridComponent } from './store/shop-grid/shop-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    ShopGridComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +36,8 @@ import { ToastrModule } from 'ngx-toastr';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor() {
-    
+
   }
 }

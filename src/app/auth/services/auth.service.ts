@@ -131,4 +131,16 @@ export class AuthService {
   updateUser(id: string, username: string, email: string, password: string, borndate: string) {
     return this.http.post(`${this._baseUrl}/update-user/${id}`, { username, email, password, borndate });
   }
+
+  private shopitems = [
+    { id: 1, name: 'Puñado de tokens', imageUrl: '...', price: 10.0, valor: 1000 },
+    { id: 2, name: 'Saco de tokens', imageUrl: '...', price: 20.0, valor: 2500 },
+    { id: 3, name: 'Caja de tokens', imageUrl: '...', price: 50.0, valor: 6000 },
+    { id: 4, name: 'Cofre de tokens', imageUrl: '...', price: 90.0, valor: 12000 },
+  ];
+
+  getShopItems() {
+    return this.shopitems;
+  }
+
 }

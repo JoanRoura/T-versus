@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ShopGridComponent} from './store/shop-grid/shop-grid.component'
 
 @Component({
   selector: 'app-root',

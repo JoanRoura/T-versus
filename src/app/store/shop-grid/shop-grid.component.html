@@ -1,0 +1,15 @@
+<table>
+  <tr *ngFor="let product of shopItems" (click)="onProductClick(product)">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of shopItems">
+        <div class="card" style="width: 18rem;">
+          <img [src]="item.imageUrl" class="card-img-top" alt="{{item.name}}">
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">{{item.valor}} tokens por ${{item.price}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tr>
+</table>
