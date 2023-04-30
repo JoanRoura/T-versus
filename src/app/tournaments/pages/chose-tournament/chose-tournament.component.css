@@ -1,0 +1,46 @@
+body {
+    background-color: #29262E;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #d91e18;
+    margin-bottom: 50px;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+
+div.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    background-color: #d91e18;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 20px;    
+    margin-top: 80px;
+    margin-bottom: 20px;
+    width: 250px;
+    padding: 10px 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #222222;
+}
+
+#create-tournament {
+    background-color: #000000;
+}
+
+#create-tournament:hover {
+    background-color: #222222;
+}
