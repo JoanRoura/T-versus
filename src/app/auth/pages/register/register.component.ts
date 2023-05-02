@@ -6,7 +6,6 @@ import { AuthUser } from '../../interfaces/auth-user.interface';
 import { AuthService } from '../../services/auth.service';
 
 import { ToastrService } from 'ngx-toastr';
-import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +27,7 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private toastr: ToastrService,) {
+    private toastr: ToastrService) {
 
     this.registerUser = this.fb.group({
       username: [null, [Validators.required, Validators.pattern(this.usernamePattern)]],

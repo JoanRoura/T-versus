@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import {
-  Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  sendPasswordResetEmail, sendEmailVerification, signOut, signInWithPopup,
-  GoogleAuthProvider
-} from '@angular/fire/auth';
-
 import { environment } from '../../../environments/environment';
 
 import { Tournament } from '../interfaces/tournament.interface';
@@ -20,7 +14,7 @@ export class TournamentsService {
 
   private _baseUrl: string = environment.baseUrl;
 
-  constructor(private auth: Auth, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   listTournaments(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(`${this._baseUrl}/tournaments`);
@@ -38,7 +32,7 @@ export class TournamentsService {
     return this.http.get<AuthUser[]>(`${this._baseUrl}/get-players-by-tournament/${id}`)
   }
 
-  joinTournament(idUser: string, tournament_id: string): Observable<AuthUser> {
-    return this.http.post<AuthUser>(`${this._baseUrl}/join-tournament/${idUser}`, { tournament_id });
+  joinTournament(idUser: string, user: AuthUser): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this._baseUrl}/join-tournament/${idUser}`, user);
   }
 }

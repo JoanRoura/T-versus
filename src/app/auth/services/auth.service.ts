@@ -28,7 +28,7 @@ export class AuthService {
   constructor(private auth: Auth, private http: HttpClient) {
     // Obtenir el 'currentUser'
     this.auth.onAuthStateChanged(user => {
-      console.log(user);
+      // console.log(user);
 
       if (user) {
         this._user = user;

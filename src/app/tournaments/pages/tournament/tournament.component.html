@@ -23,16 +23,26 @@
                 <button 
                     pButton 
                     type="button" 
-                    label="Join Tournament" 
-                    class="p-button-warning p-button-raised p-button-text" 
-                    (click)="joinTournament()">
+                    label="Entrar en el Torneo" 
+                    class="p-button-success p-button-raised p-button-text" 
+                    (click)="joinTournament()"
+                    [disabled]="this.userJoinedInTournament.isJoined">
                 </button>
-    
+
+                <button 
+                    pButton 
+                    type="button" 
+                    label="Salir del Torneo" 
+                    class="p-button-danger p-button-raised p-button-text" 
+                    (click)="disjoinTournament()"
+                    [disabled]="!this.userJoinedInTournament.isJoined">
+                </button>
+                
                 <button 
                     pButton 
                     type="button" 
                     label="Go Back" 
-                    class="p-button-secondary p-button-text" 
+                    class="p-button-secondary p-button-raised p-button-text" 
                     (click)="goBack()">
                 </button>
             

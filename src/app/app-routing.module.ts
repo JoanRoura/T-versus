@@ -21,6 +21,11 @@ const routes: Routes = [
     loadChildren: () => import('./store/store.module').then( m => m.StoreModule),
     ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
   },
+  { 
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminModule),
+    ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
+  },
   {
     path: '404',
     component: ErrorPageComponent

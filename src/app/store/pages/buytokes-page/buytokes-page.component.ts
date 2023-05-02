@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { UserService } from 'src/app/tournaments/services/user.service';
 
 @Component({
   selector: 'app-buytokes-page',
@@ -19,7 +19,6 @@ export class BuytokesPageComponent {
 
 constructor(  
     private authService: AuthService,
-    private userService: UserService,
     private router: Router) { }
 
 }

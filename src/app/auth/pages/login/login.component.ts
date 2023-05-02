@@ -72,6 +72,10 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(email, password)
       .then(resp => {
+
+        if (resp.user.email == "admin@gmail.com") {
+          this.router.navigate(['/admin/home-admin'])
+        }
         
         if (resp.user?.emailVerified) {
           this.router.navigate(['/tournaments/main']);
