@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { delay, switchMap, tap } from 'rxjs';
 
 import { Tournament } from '../../interfaces/tournament.interface';
 
@@ -92,12 +92,16 @@ export class TournamentComponent implements OnInit {
 
     console.log(this.userJoinedInTournament.tokens!, this.tournament.price!);
 
-    this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
-      .subscribe(resp => {
-        this.toastr.success('Te has unido al torneo. ', 'Success');
-        console.log(resp);
-        // location.reload();
-      });
+    setTimeout(() => {
+      this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
+        .subscribe( resp => {
+          console.log(resp);
+          location.reload();
+        });
+    }, 2000);
+
+    this.toastr.success('Te has unido al torneo. ', 'Success');
+
 
     // if (this.msgTournamentButton.idTournament != "" && this.msgTournamentButton.isJoined == true) {
 
@@ -126,12 +130,17 @@ export class TournamentComponent implements OnInit {
       tokens: this.userJoinedInTournament.tokens! + this.tournament.price!
     }
 
-    this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
-      .subscribe(resp => {
-        this.toastr.info('Has salido del torneo. ', 'Info');
-        console.log(resp);
-        // location.reload();
-      });
+    setTimeout(() => {
+      this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
+        .subscribe( resp => {
+         
+          console.log(resp);
+          location.reload();
+        });
+    }, 2000); 
+
+    this.toastr.info('Has salido del torneo. ', 'Info');
+
   }
 
   // userIsJoined(): string {
