@@ -126,11 +126,12 @@ router.post('/new-tournament', async (req, res) => {
     res.send('New tournament created');
 });
 
-router.get('/get-tournaments-official/', async (req, res) => {
+router.get('/get-tournaments-type/:id', async (req, res) => {
 
     try {
+        const { id } = req.params;
         const collectionRef = db.collection('tournaments');
-        const querySnapshot = await collectionRef.where('type', '==', "official").get();
+        const querySnapshot = await collectionRef.where('type', '==', id).get();
 
         if (querySnapshot.empty) {
             res.status(404).send('Tournaments not found');
@@ -147,26 +148,26 @@ router.get('/get-tournaments-official/', async (req, res) => {
     }
 });
 
-router.get('/get-tournaments-unofficial/', async (req, res) => {
+// router.get('/get-tournaments-unofficial/', async (req, res) => {
 
-    try {
-        const collectionRef = db.collection('tournaments');
-        const querySnapshot = await collectionRef.where('type', '==', "unofficial").get();
+//     try {
+//         const collectionRef = db.collection('tournaments');
+//         const querySnapshot = await collectionRef.where('type', '==', "unofficial").get();
 
-        if (querySnapshot.empty) {
-            res.status(404).send('Tournaments not found');
-        } else {
-            const tournaments = querySnapshot.docs.map(doc => ({
-                ...doc.data()
-            }));
-            res.send(tournaments);
-        }
+//         if (querySnapshot.empty) {
+//             res.status(404).send('Tournaments not found');
+//         } else {
+//             const tournaments = querySnapshot.docs.map(doc => ({
+//                 ...doc.data()
+//             }));
+//             res.send(tournaments);
+//         }
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
-    }
-});
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Server error');
+//     }
+// });
 
 router.post('/buy-tokens/:id', async (req, res) => {
 
@@ -191,7 +192,7 @@ router.get('/get-players-by-tournament/:id', async (req, res) => {
         const { id } = req.params;
         const collectionRef = db.collection('users');
         const querySnapshot = await collectionRef.where('tournament_id', '==', id).get();
-        
+
         if (querySnapshot.empty) {
             res.status(404).send('Tournaments without players');
         } else {

@@ -26,6 +26,11 @@ const routes: Routes = [
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminModule),
     ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
   },
+  { 
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfileModule),
+    ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
+  },
   {
     path: '404',
     component: ErrorPageComponent

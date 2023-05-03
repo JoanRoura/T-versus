@@ -8,7 +8,7 @@ import { CreateTournamentComponent } from './pages/create-tournament/create-tour
 import { SearchTournamentComponent } from './pages/search-tournament/search-tournament.component';
 import { EditTournamentComponent } from './pages/edit-tournament/edit-tournament.component';
 import { TournamentComponent } from './pages/tournament/tournament.component';
-import { StoreItemCardComponent } from '../store/components/store-item-card/store-item-card.component';
+import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
 
 const routes: Routes = [
   {
@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'create-tournament',
         component: CreateTournamentComponent
+      },
+      {
+        path: 'show-tournaments/:id',
+        component: ShowTournamentsComponent
       },
       {
         path: 'edit-tournament/:id',

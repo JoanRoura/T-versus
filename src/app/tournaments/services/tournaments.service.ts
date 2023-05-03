@@ -35,4 +35,8 @@ export class TournamentsService {
   joinTournament(idUser: string, user: AuthUser): Observable<AuthUser> {
     return this.http.post<AuthUser>(`${this._baseUrl}/join-tournament/${idUser}`, user);
   }
+
+  getTournamentType(type: string): Observable<Tournament[]> {
+    return this.http.get<Tournament[]>(`${this._baseUrl}/get-tournaments-type/${type}`);
+  }
 }

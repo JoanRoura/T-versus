@@ -31,11 +31,9 @@ export class CreateTournamentComponent {
     });
   }
   
-
   createTournament() {
     const name = this.newTournament.value.name;
     const description = this.newTournament.value.description;
-
 
     this.loading = true;
 
@@ -60,9 +58,5 @@ export class CreateTournamentComponent {
     const min = 100000;
     const max = 200000000;
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  
-
-
-  
+  } 
 }

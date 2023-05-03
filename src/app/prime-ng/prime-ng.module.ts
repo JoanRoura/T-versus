@@ -9,12 +9,12 @@ import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   exports: [
-    InputTextModule,
+    DividerModule,
     ButtonModule,
     CardModule,
-    DividerModule,
+    InputTextModule,
     StepsModule,
-    SidebarModule    
+    SidebarModule
   ]
 })
 export class PrimeNgModule { }

@@ -17,6 +17,7 @@ import { TournamentComponent } from './pages/tournament/tournament.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ImagePipe } from './pipes/image.pipe';
+import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ImagePipe } from './pipes/image.pipe';
     CarouselComponent,
     EditTournamentComponent,
     TournamentComponent,
-    ImagePipe
+    ImagePipe,
+    ShowTournamentsComponent
   ],
   imports: [
     CommonModule,

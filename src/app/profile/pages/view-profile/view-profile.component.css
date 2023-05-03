@@ -1,0 +1,163 @@
+.wrapper{
+    background-color: #29262E;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .full-height{
+    height: 100%;
+    background-color: #29262E;
+  }
+  
+  .profile {
+    background-color: #29262E;
+    border-radius: 10px;
+    padding: 20px;
+    width: 70%;
+    box-shadow: 0 0 40px #666;
+  }
+
+  .profile-img{
+    box-shadow: 0 0 40px #fff;
+  }
+  
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h1 {
+    font-size: 3em;
+    margin: 0;
+    color: #FF4057;
+    text-align: center;
+  }
+  
+  .profile-avatar {
+    width: 150px;
+    height: 150px;
+    background-color: #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .profile-info p {
+    margin: 0;
+    font-size: 1.5em;
+    color: #FF4057;
+    margin-bottom: 10px;
+  }
+  
+  .profile-info span {
+    font-size: 1em;
+    color: #999;
+  }
+
+  .input-group{
+    width: 330px;
+  }
+
+  .custom-input{
+    width: 225px;
+  }
+
+  .custom-input:focus{
+    box-shadow: 0 0 0 0.25rem rgba(255, 64, 87, 0.15),
+    0 0 0 0.25rem rgba(255, 64, 87, 0.3);
+    outline: none;
+  }
+  
+  .profile-games {
+    margin-top: 90px;
+  }
+  
+  .profile-games h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #FF4057;
+    text-align: center;
+  }
+  
+  .profile-game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    background-color: #FF4057;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px #666;
+  }
+
+  .tilt-div {
+    transition: transform 0.3s ease-out;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .tilt-div:hover {
+    transform: scale(0.95)
+  }
+  
+  .profile-game p {
+    margin: 0;
+    font-size: 1.5em;
+    color: #F6F6F6;
+    margin-bottom: 10px;
+  }
+  
+  .profile-game span {
+    font-size: 1em;
+    color: #29262E;
+  }
+  
+  .profile-game img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 20px;
+  }
+
+  .input-group-text{
+    width: 105px;
+  }
+
+  .hide{
+    display:none
+  }
+  
+  @media (max-width: 768px) {
+    .center-on-collapsed{
+      text-align: center;
+    }
+    .reduce-on-collapsed{
+      margin-left: 3%;
+      margin-right: 3%;
+    }
+
+    .input-group{
+      width: 285px;
+    }
+    .custom-input{
+      width: 180px;
+    }
+  }

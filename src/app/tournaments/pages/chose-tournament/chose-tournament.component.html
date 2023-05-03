@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>TVERSUS</title>
-	
-	<!-- Estilos CSS de PrimeNG -->
-	<link rel="stylesheet" href="https://unpkg.com/primeng/resources/themes/saga-blue/theme.css" />
-	<link rel="stylesheet" href="https://unpkg.com/primeng/resources/primeng.min.css" />
-	
-</head>
-<body>
-	
+<div class="h-100 bg-principal-color">
 	<div class="buttons-container">
-		<button id="official-tournaments" routerLink="/tournaments/main" >Torneos Oficiales</button>
-		<button id="unofficial-tournaments"  routerLink="/tournaments/main" >Torneos No Oficiales</button>
-		<button id="create-tournament" routerLink="/tournaments/create-tournament" >Crear Torneo</button>
+		<button routerLink="/tournaments/show-tournaments/official">Torneos Oficiales</button>
+		<button routerLink="/tournaments/show-tournaments/unofficial">Torneos No Oficiales</button>
+		<button routerLink="/tournaments/create-tournament">Crear Torneo</button>
 	</div>
-	
-	<script src="https://unpkg.com/primeng/primeng.min.js"></script>
-
-</body>
-</html>
+</div>

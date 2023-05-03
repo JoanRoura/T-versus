@@ -73,7 +73,7 @@ export class TournamentComponent implements OnInit {
   }
 
   joinTournament() {
-
+    
     if (this.userJoinedInTournament.tokens! < this.tournament.price!) {
       this.toastr.error('No tienes suficientes creditos para ingressar. ', 'Error');
       return;
@@ -87,7 +87,7 @@ export class TournamentComponent implements OnInit {
     this.userJoinedInTournament = {
       isJoined: !this.userJoinedInTournament.isJoined,
       tournament_id: this.tournament.id,
-      tokens: this.userJoinedInTournament.tokens! - this.tournament.price!
+      tokens: this.tournament.price! - this.userJoinedInTournament.tokens! 
     }
 
     console.log(this.userJoinedInTournament.tokens!, this.tournament.price!);
@@ -127,8 +127,10 @@ export class TournamentComponent implements OnInit {
     this.userJoinedInTournament = {
       isJoined: !this.userJoinedInTournament.isJoined,
       tournament_id: "",
-      tokens: this.userJoinedInTournament.tokens! + this.tournament.price!
+      tokens: this.tournament.price! + this.userJoinedInTournament.tokens!
     }
+
+    console.log(this.userJoinedInTournament.tokens!, this.tournament.price!);
 
     setTimeout(() => {
       this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
