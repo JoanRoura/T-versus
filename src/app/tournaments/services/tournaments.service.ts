@@ -20,8 +20,8 @@ export class TournamentsService {
     return this.http.get<Tournament[]>(`${this._baseUrl}/tournaments`);
   }
 
-  getOneTournament(id: string): Observable<Tournament> {
-    return this.http.get<Tournament>(`${this._baseUrl}/get-tournament/${id}`);
+  getOneTournament(idTournament: string): Observable<Tournament> {
+    return this.http.get<Tournament>(`${this._baseUrl}/get-tournament/${idTournament}`);
   }
 
   createTournament(tournament: Tournament): Observable<Tournament> {
@@ -36,7 +36,15 @@ export class TournamentsService {
     return this.http.post<AuthUser>(`${this._baseUrl}/join-tournament/${idUser}`, user);
   }
 
-  getTournamentType(type: string): Observable<Tournament[]> {
-    return this.http.get<Tournament[]>(`${this._baseUrl}/get-tournaments-type/${type}`);
+  getTournamentType(typeTournament: string): Observable<Tournament[]> {
+    return this.http.get<Tournament[]>(`${this._baseUrl}/get-tournaments-type/${typeTournament}`);
+  }
+
+  deleteTournament(idTournament: string): Observable<Tournament> {
+    return this.http.get<Tournament>(`${this._baseUrl}/delete-tournament/${idTournament}`);
+  }
+
+  updateTournament(idTournament: string, tournament: Tournament): Observable<Tournament> {
+    return this.http.post<Tournament>(`${this._baseUrl}/update-tournament/${idTournament}`, tournament);
   }
 }

@@ -148,26 +148,43 @@ router.get('/get-tournaments-type/:id', async (req, res) => {
     }
 });
 
-// router.get('/get-tournaments-unofficial/', async (req, res) => {
+router.get('/delete-tournament/:id', async (req, res) => {
 
-//     try {
-//         const collectionRef = db.collection('tournaments');
-//         const querySnapshot = await collectionRef.where('type', '==', "unofficial").get();
+    await db.collection('tournaments').doc(req.params.id).delete();
 
-//         if (querySnapshot.empty) {
-//             res.status(404).send('Tournaments not found');
-//         } else {
-//             const tournaments = querySnapshot.docs.map(doc => ({
-//                 ...doc.data()
-//             }));
-//             res.send(tournaments);
-//         }
+    res.send('Tournament Deleted');
+});
 
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Server error');
-//     }
-// });
+router.post('/update-tournament/:id', async (req, res) => {
+
+    const { id } = req.params;
+
+    await db.collection('tournaments').doc(id).update(req.body);
+
+    res.send("Updated Tournament");
+});
+
+router.get('/get-suggestion-tournaments/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const collectionRef = db.collection('tournaments');
+        const querySnapshot = await collectionRef.where('name', '>=', id).get();
+
+        if (querySnapshot.empty) {
+            res.status(404).send('Tournaments not found');
+        } else {
+            const tournaments = querySnapshot.docs
+                .map(doc => doc.data())
+                .filter(tournament => tournament.name.includes(id));
+
+            res.send(tournaments);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
 
 router.post('/buy-tokens/:id', async (req, res) => {
 

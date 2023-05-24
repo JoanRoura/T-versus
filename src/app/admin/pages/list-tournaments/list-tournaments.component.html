@@ -1,0 +1,254 @@
+<p-toast></p-toast>
+
+<div class="card p-3 m-2">
+
+    <p-toolbar styleClass="mb-4 gap-2">
+
+        <ng-template pTemplate="left">
+            <button pButton 
+                    pRipple 
+                    label="New" 
+                    icon="pi pi-plus" 
+                    class="p-button-success mr-2" 
+                    (click)="openDialog()">
+            </button>
+
+            <button pButton 
+                    pRipple 
+                    icon="pi pi-trash" 
+                    class="p-button-danger" 
+                    (click)="deleteSelectedTournaments()" 
+                    [disabled]="!selectedTournaments || !selectedTournaments.length">
+            </button>
+        </ng-template>
+
+    </p-toolbar>
+    
+    <p-table [value]="tournaments" 
+             [(selection)]="selectedTournaments"
+             [tableStyle]="{'min-width': '50rem', 'overflow-x': 'hidden'}" 
+             [rowHover]="true"
+             [paginator]="true"
+             [rows]="10" 
+             [showCurrentPageReport]="true"
+             [loading]="loading" >
+ 
+        <ng-template pTemplate="caption" style="overflow-x: hidden;">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">List of Tournaments</h5>
+
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>    
+                    <input pInputText 
+                           type="text" 
+                           [(ngModel)]="term" 
+                           (input)="searchTournament()" 
+                           placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+    
+        <ng-template pTemplate="header" style="overflow-x: hidden;">
+            <tr class="pad-0-th">
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="id"> 
+                    Id 
+                    <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name"> 
+                    Name 
+                    <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th>
+                    Image
+                </th>
+                <th pSortableColumn="game"> 
+                    Game 
+                    <p-sortIcon field="game"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description" class="pr-0"> 
+                    Description 
+                    <p-sortIcon field="description"></p-sortIcon>
+                </th>
+                <th pSortableColumn="organizer"> 
+                    Organizer 
+                    <p-sortIcon field="organizer"></p-sortIcon>
+                </th>
+                <th pSortableColumn="type"> 
+                    Type 
+                    <p-sortIcon field="type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="price"> 
+                    Price 
+                    <p-sortIcon field="price"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="body" let-tournament style="overflow-x: hidden;">
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="tournament"></p-tableCheckbox>
+                </td>
+                <td><span class="user-badge status-auth"> {{ tournament.id }} </span></td>
+                <td> {{ tournament.name }} </td>
+                <td><img [src]="tournament | image" [alt]="tournament.name" width="150" class="shadow-4" /></td>
+                <td> {{ tournament.game }} </td>
+                <td> {{ tournament.description }} </td>
+                <td><span class="user-badge status-auth no-bg"> {{ tournament.organizer }} </span></td>
+                <td> {{ tournament.type }} </td>
+                <td> {{ tournament.price | number:'1.0-0':'es-ES' }} </td>
+                <td>
+                    <span class="flex">
+                        <button pButton 
+                                pRipple 
+                                icon="pi pi-pencil" 
+                                class="p-button-rounded p-button-success mr-2" 
+                                (click)="editTournament(tournament)">
+                        </button>
+                
+                        <button pButton 
+                                pRipple 
+                                icon="pi pi-trash" 
+                                class="p-button-rounded p-button-warning" 
+                                (click)="deleteTournament(tournament)">
+                        </button>
+                    </span>
+                   
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{tournaments ? tournaments.length : 0 }} tournaments.
+            </div>
+        </ng-template>
+
+    </p-table>
+</div>
+
+<p-dialog appendTo="body" 
+          [(visible)]="tournamentDialog" 
+          [style]="{width: '450px'}" 
+          header="Tournament Details" 
+          [modal]="true" 
+          styleClass="p-fluid">
+    
+    <ng-template pTemplate="content">
+        <form [formGroup]="formNewTournament"> 
+
+            <img [src]="tournament | image" alt="Imagen Valorant" class="tournament-image" *ngIf="tournament.image">
+
+            <div class="field">
+                <label for="name">Name</label>
+                <input pInputText 
+                       type="text" 
+                       formControlName="name" 
+                       [(ngModel)]="tournament.name"/>
+                <small class="p-error" *ngIf="submitted && !tournament.name">Name is required.</small>
+            </div>
+
+            <div class="field">
+                <label >Description</label>
+                <textarea pInputTextarea 
+                          id="description" 
+                          formControlName="description" 
+                          rows="3" 
+                          cols="20"
+                          [(ngModel)]="tournament.description">
+                </textarea>
+            </div>
+
+            <div class="field">
+                <label>Game</label>
+                <select class="form-select" 
+                        formControlName="game"
+                        [(ngModel)]="tournament.game">
+
+                    <option selected disabled value="">Select</option>
+                    <option>Valorant</option>
+
+                </select>
+                <!-- <div class="invalid-feedback">
+                    Please select a valid state.
+                </div> -->
+            </div>
+
+            <div class="field">
+                <label>Tournament Type</label>
+                <div class="flex flex-row">
+                    <div class="form-check mr-8">
+                        <input class="form-check-input" 
+                               formControlName="tournamentType" 
+                               type="radio" 
+                               value="unofficial" 
+                               id="unofficial" 
+                               [(ngModel)]="tournament.type"
+                               checked>
+                        <label class="form-check-label" for="unofficial">
+                            Unofficial
+                        </label>
+                    </div>
+    
+                    <div class="form-check ml-5">
+                        <input class="form-check-input" 
+                               formControlName="tournamentType" 
+                               type="radio" 
+                               value="official" 
+                               id="official"
+                               [(ngModel)]="tournament.type">
+                        <label class="form-check-label" for="official">
+                            Official
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formgrid grid">
+                <div class="field col">
+                    <label for="price">Price</label>
+                    <p-inputNumber id="price" 
+                                   value="0"
+                                   formControlName="price" 
+                                   mode="decimal"
+                                   [(ngModel)]="tournament.price">
+                    </p-inputNumber>
+                </div>
+
+                <div class="field col">
+                    <label for="quantity">Image</label>
+                    <input type="text" 
+                           formControlName="image" 
+                           [(ngModel)]="tournament.image"
+                           pInputText />
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton 
+                pRipple 
+                label="Cancel" 
+                icon="pi pi-times" 
+                class="p-button-text" 
+                (click)="hideDialog()">
+        </button>
+
+        <button pButton 
+                pRipple 
+                type="submit"
+                label="Save" 
+                icon="pi pi-check" 
+                class="p-button-text" 
+                (click)="saveTournament()">
+        </button>
+    </ng-template>
+
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

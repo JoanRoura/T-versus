@@ -73,12 +73,12 @@ export class LoginComponent {
     this.authService.login(email, password)
       .then(resp => {
 
-        // if (resp.user.email == "admin@gmail.com") {
-        //   this.router.navigate(['/admin/home-admin'])
-        // }
-        
+        console.log();
+      
         if (resp.user?.emailVerified) {
           this.router.navigate(['/tournaments/main']);
+        } else if (email === "admin@gmail.com" && password === "admin123") {
+          this.router.navigate(['/admin/home-admin']);
         } else {
           this.router.navigate(['/auth/verify-mail']);
         }
@@ -92,7 +92,7 @@ export class LoginComponent {
   loginWithGoogle() {
     this.authService.loginWithGoogle()
       .then(resp => {
-        this.router.navigate(['/tournaments/main'])        
+        this.router.navigate(['/tournaments/main']);   
       })
       .catch(error => console.log(error));
   }

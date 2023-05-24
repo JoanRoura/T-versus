@@ -108,8 +108,8 @@ export class AuthService {
   }
 
   // Llistar usuaris de la DB
-  listUsers(): Observable<AuthUser> {
-    return this.http.get<AuthUser>(`${this._baseUrl}/users`);
+  listUsers(): Observable<AuthUser[]> {
+    return this.http.get<AuthUser[]>(`${this._baseUrl}/users`);
   }
 
   // Crear usuaris a la DB

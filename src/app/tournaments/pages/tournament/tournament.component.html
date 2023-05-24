@@ -1,55 +1,95 @@
-<div class="text_layout bg-secondary-color h-100">
+<div  class="h-100 p-4">
+    <h2>{{ tournament.name }}</h2>
 
-    <div *ngIf="!loading" class="container">
+    <p-tabView styleClass="tabview-custom">
 
-        <div class="row pt-3">
-            <div class="col-12 col-md-6">
-                <h4>{{ tournament.game }}</h4>
-                <p-divider></p-divider>
-                <br>
-                <img class="w-full rounded-3" [src]="tournament | image">
-            </div>
-    
-            <div class="col-12 col-md-6">
-                <h4>{{ tournament.name }}</h4>
-                <p-divider></p-divider>
-    
-                <ul class="pb-4">
-                    <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
-                    <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
-                    <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>            
-                </ul>
+        <p-tabPanel header="Descripcion">
 
-                <button 
-                    pButton 
-                    type="button" 
-                    label="Entrar en el Torneo" 
-                    class="p-button-success p-button-raised p-button-text" 
-                    (click)="joinTournament()"
-                    [disabled]="this.userJoinedInTournament.isJoined">
-                </button>
+            <ng-template pTemplate="header">
+                <i class="pi pi-info-circle"></i>
+                <span>Descripcion</span>
+            </ng-template>
 
-                <button 
-                    pButton 
-                    type="button" 
-                    label="Salir del Torneo" 
-                    class="p-button-danger p-button-raised p-button-text" 
-                    (click)="disjoinTournament()"
-                    [disabled]="!this.userJoinedInTournament.isJoined">
-                </button>
-                
-                <button 
-                    pButton 
-                    type="button" 
-                    label="Go Back" 
-                    class="p-button-secondary p-button-raised p-button-text" 
-                    (click)="goBack()">
-                </button>
+            <div class="">
+                <div *ngIf="!loading">
             
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h4>{{ tournament.game }}</h4>
+                            <p-divider></p-divider>
+                            <br>
+                            <img class="w-full rounded-3" [src]="tournament | image">
+                        </div>
+                
+                        <div class="col-12 col-md-6">
+                            <h4>{{ tournament.name }}</h4>
+                            <p-divider></p-divider>
+                
+                            <ul class="pb-4">
+                                <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
+                                <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
+                                <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>            
+                            </ul>
+            
+                            <div class=" flex flex-column pb-5">
+                                <button 
+                                    pButton 
+                                    type="button" 
+                                    label="Entrar en el Torneo" 
+                                    class="p-button-success p-button-raised p-button-text" 
+                                    (click)="joinTournament()"
+                                    [disabled]="this.userJoinedInTournament.isJoined">
+                                </button>
+                
+                                <button 
+                                    pButton 
+                                    type="button" 
+                                    label="Salir del Torneo" 
+                                    class="p-button-danger p-button-raised p-button-text" 
+                                    (click)="disjoinTournament()"
+                                    [disabled]="!this.userJoinedInTournament.isJoined">
+                                </button>
+            
+                                <button 
+                                    pButton 
+                                    type="button" 
+                                    label="Ver Emparejamientos" 
+                                    class="p-button-info p-button-raised p-button-text" 
+                                    (click)="goBack()">
+            
+                                </button>
+                            </div>
+            
+                            <div class="flex flex-row justify-content-center">
+                                <button 
+                                    pButton 
+                                    type="button" 
+                                    label="Volver Atras" 
+                                    class="p-button-secondary p-button-raised p-button-text" 
+                                    (click)="goBack()">
+                                </button>
+                            </div>
+                        </div>
+                
+                    </div>        
+                </div>
+            
+                <div *ngIf="loading">
+                    <app-spinner></app-spinner>
+                </div>
             </div>
+            
+        </p-tabPanel>
     
-            <div class="col-12 mt-3">
-                <h4>Players in the Tournament</h4>
+        <p-tabPanel header="Jugadores">
+            <ng-template pTemplate="header">
+                <i class="pi pi-user"></i>
+                <span>Jugadores</span>
+            </ng-template>
+
+            <div>
+                <h5>Confirmados</h5>
+                <p>Estos jugadores están participando en el torneo.</p>
                 <p-divider></p-divider>
     
                 <div *ngFor="let user of usersInTournament" class="flex align-items-center mb-3">
@@ -58,15 +98,19 @@
                     <p class="ml-3 mb-0"> {{ user.username }} </p>
             
                 </div>  
-                
             </div>
+        </p-tabPanel>
+    
+        <p-tabPanel header="Partidas">
+            <ng-template pTemplate="header">
+                <i class="pi pi-sitemap"></i>
+                <span>Partidas</span>
+            </ng-template>
+
 
             
-        </div>
-        
-    </div>
-
-    <div *ngIf="loading">
-        <app-spinner></app-spinner>
-    </div>
+        </p-tabPanel>
+    </p-tabView>
 </div>
+
+

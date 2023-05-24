@@ -1,1 +1,71 @@
-<p>header works!</p>
+<header class="border-bottom border-danger bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container-fluid">
+
+            <!--icono-->
+            <a class="navbar-brand ms-0" routerLink="/tournaments/main">
+                <img class="m-t-21" src="../../../../assets/images/logoVersusWhite.png" alt="no" width="70">
+                <span class="text-white pl-3">TVersus</span>
+            </a>
+
+            <!--boton menu colapsable-- >
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--elem menu colapsable-->
+            <div class="collapse navbar-collapse ms-3 text-center" id="menu">
+                <!--links-->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <span class="navbar-nav nav-item dropdown pl-3">
+
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" routerLink="/tournaments/chose-tournament">TORNEOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" routerLink="/store/buy-tokens">TIENDA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" routerLink="/tournaments/create-tournament">CREAR TORNEO</a>
+                    </li>
+                </ul>
+                <!--barra de buscar-->
+                <div class="nav-item my-3 w-60 md-w-20 ms-auto me-3">
+                    <form class="d-flex bd-highlight" role="search">
+                        <input type="text" class="input-search form-control" placeholder="Search" aria-label="Search"
+                            aria-describedby="button-addon2">
+                        <button class="btn btn-search btn-outline-danger" type="button" id="button-addon2"><i
+                                class="bi bi-search"></i></button>
+                    </form>
+                </div>
+
+                <!--perfil-->
+                <span class="navbar-nav nav-item dropdown mx-3">
+                    <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{ user.email }}
+                        <img class="m-t-21" src="../../../../assets/images/user.png" alt="no" width="30" height="30">
+                    </a>
+                    <!--menu desplegable-->
+                    <ul class="dropdown-menu bg-dark center-on-collapsed">
+                        <li><a class="dropdown-item text-white" href="#" routerLink="/profile/view-profile">View
+                                profile</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Edit profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider bg-danger">
+                        </li>
+                        <li><button class="dropdown-item text-white" href="#" (click)="logOut()">Logout
+                                <img class="m-t-21" src="../../../../assets/images/logout.png" alt="no" width="20"
+                                    height="20">
+                            </button></li>
+                    </ul>
+                </span>
+
+            </div>
+        </div>
+    </nav>
+</header>

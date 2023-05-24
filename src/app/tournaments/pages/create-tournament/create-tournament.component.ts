@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { TournamentsService } from '../../services/tournaments.service';
-import { Tournament } from '../../interfaces/tournament.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
+
+import { Tournament } from '../../interfaces/tournament.interface';
+import { idGenerated } from '../../utils/gen-tournament-id';
 
 @Component({
   selector: 'app-create-tournament',
@@ -40,7 +43,7 @@ export class CreateTournamentComponent {
     this.tournamentdb = {
       description: description,
       game: "Valorant",
-      id: this.getTournamentId().toString(),
+      id: idGenerated().toString(),
       image: 2131165640,
       name: name,
       organizer: this.user.email,
@@ -53,10 +56,4 @@ export class CreateTournamentComponent {
         console.log(resp);
       });
   }
-
-  getTournamentId(): number {
-    const min = 100000;
-    const max = 200000000;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  } 
 }
