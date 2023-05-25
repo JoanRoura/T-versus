@@ -7,6 +7,7 @@ import { PaymentPageComponent } from './pages/payment-page/payment-page.componen
 import { HomeStoreComponent } from './pages/home-store/home-store.component';
 import { BuytokesPageComponent } from './pages/buytokes-page/buytokes-page.component';
 import { SharedModule } from '../shared/shared.module';
+import { SpendtokensPageComponent } from './pages/spendtokens-page/spendtokens-page.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SharedModule } from '../shared/shared.module';
     StoreItemCardComponent,
     PaymentPageComponent,
     HomeStoreComponent,
-    BuytokesPageComponent
+    BuytokesPageComponent,
+    SpendtokensPageComponent
   ],
   imports: [
     CommonModule,

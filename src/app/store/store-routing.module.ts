@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PaymentPageComponent } from './pages/payment-page/payment-page.component';
 import { HomeStoreComponent } from './pages/home-store/home-store.component';
 import { BuytokesPageComponent } from './pages/buytokes-page/buytokes-page.component';
+import {SpendtokensPageComponent} from "./pages/spendtokens-page/spendtokens-page.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'payment',
         component: PaymentPageComponent
+      },
+      {
+        path: 'spend',
+        component: SpendtokensPageComponent
       },
       {
         path: '**',

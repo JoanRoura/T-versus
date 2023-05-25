@@ -124,11 +124,12 @@ export class AuthService {
 
   // Eliminar usuaris de la DB
   deleteUser(id: string) {
-    return this.http.get(`${this._baseUrl}/delete-user/${id}`);
+    return this.http.delete(`${this._baseUrl}/delete-user/${id}`);
   }
 
   // Actualitzar usuaris de la DB
-  updateUser(id: string, username: string, email: string, password: string, borndate: string) {
-    return this.http.post(`${this._baseUrl}/update-user/${id}`, { username, email, password, borndate });
+  updateUser(user: AuthUser) {
+    return this.http.post(`${this._baseUrl}/update-user/${user.email}`, user);
   }
 }
+

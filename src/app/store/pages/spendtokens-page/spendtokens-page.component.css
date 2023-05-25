@@ -1,0 +1,28 @@
+.card-img-top{
+  margin-top: 100px;
+  height: 200px;
+  width: 150px;
+}
+.container-img{
+  background-color:#29262E ;
+  height: 400px;
+  text-align: center;
+}
+.card{
+  width: 100px;
+}
+.card-footer{
+  background-color: #29262E;
+  text-align: center;
+}
+.p-button-warning{
+  border-radius: 10px;
+  margin: 10px;
+}
+button:hover {
+  background-color:#FF4057   ;
+}
+.card-body{
+  color: beige;
+  background-color: #FF4057 ;
+}

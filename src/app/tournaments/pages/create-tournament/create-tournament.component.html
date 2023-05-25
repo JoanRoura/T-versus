@@ -1,24 +1,24 @@
 <div class="container mt-3 h-100">
     <div *ngIf="!loading">
-        <h1 class="mb-4 text_layout">Crear Torneo</h1>
-        
+        <h1 class="mb-4 text_dark">Crear Torneo</h1>
+
         <form [formGroup]="newTournament" (ngSubmit)="createTournament()" >
-    
+
             <div class="form-floating mb-3">
                 <input type="text" formControlName="name" class="form-control" id="floatingInput" placeholder="Leave a comment here">
                 <label for="floatingInput">Name Tournament</label>
             </div>
-    
+
             <div class="form-floating mb-3">
                 <textarea type="text" formControlName="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                 <label for="floatingTextarea2">Description</label>
             </div>
 
             <div class="flex">
-                <button type="submit" class="btn btn-primary mr-3">Create</button>    
+                <button type="submit" class="btn btn-primary mr-3">Create</button>
                 <button type="button" class="btn btn-outline-danger">Cancel</button>
             </div>
-            
+
         </form>
 
     </div>

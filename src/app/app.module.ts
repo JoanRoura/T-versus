@@ -20,7 +20,7 @@ import  {MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,
