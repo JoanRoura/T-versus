@@ -9,6 +9,7 @@ import { SearchTournamentComponent } from './pages/search-tournament/search-tour
 import { EditTournamentComponent } from './pages/edit-tournament/edit-tournament.component';
 import { TournamentComponent } from './pages/tournament/tournament.component';
 import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
+import { AdminTournamentRondesComponent } from '../admin-tournament-rondes/admin-tournament-rondes.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: '**',
         redirectTo: 'main'
+      },
+      {
+        path: 'roundsAdmin/:id',
+        component: AdminTournamentRondesComponent
       }
     ]
   }

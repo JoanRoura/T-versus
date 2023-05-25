@@ -73,7 +73,7 @@ export class TournamentComponent implements OnInit {
   }
 
   joinTournament() {
-    
+
     if (this.userJoinedInTournament.tokens! < this.tournament.price!) {
       this.toastr.error('No tienes suficientes creditos para ingressar. ', 'Error');
       return;
@@ -87,7 +87,7 @@ export class TournamentComponent implements OnInit {
     this.userJoinedInTournament = {
       isJoined: !this.userJoinedInTournament.isJoined,
       tournament_id: this.tournament.id,
-      tokens: this.tournament.price! - this.userJoinedInTournament.tokens! 
+      tokens: this.tournament.price! - this.userJoinedInTournament.tokens!
     }
 
     console.log(this.userJoinedInTournament.tokens!, this.tournament.price!);
@@ -135,16 +135,22 @@ export class TournamentComponent implements OnInit {
     setTimeout(() => {
       this.tournamentsService.joinTournament(this.user.email, this.userJoinedInTournament)
         .subscribe( resp => {
-         
+
           console.log(resp);
           location.reload();
         });
-    }, 2000); 
+    }, 2000);
 
     this.toastr.info('Has salido del torneo. ', 'Info');
 
   }
 
+  seeRounds() {
+
+    const tournamentId = this.tournament.id;
+    console.log(tournamentId)
+    this.router.navigate(['/tournaments/roundsAdmin'], { queryParams: { tournamentId: tournamentId } });
+  }
   // userIsJoined(): string {
   //   return (this.msgTournamentButton.isJoined && this.msgTournamentButton.idTournament == this.tournament.id)
   //     ? "Salir del Torneo"

@@ -1,0 +1,23 @@
+
+
+<p>admin-tournament-rondes works!</p>
+<div id="superior">
+  <h1>{{tournament.name}}</h1>
+  <p>Administrador:</p>
+  <p>{{tournament.organizer}}</p>
+  <button>Unirse</button>
+</div>
+
+
+<p>{{tournament.id}}</p>
+
+<div class="container">
+  <div class="row align-items-start flex-column">
+    <div *ngFor="let ronda of tournament.rounds">
+      <app-admin-datos-ronda [ronda]="ronda"></app-admin-datos-ronda>
+      <!-- Resto del contenido del componente -->
+    </div>
+  </div>
+</div>
+
+<p *ngIf="tournament.oficial==true">Preu {{tournament.preu}}</p>

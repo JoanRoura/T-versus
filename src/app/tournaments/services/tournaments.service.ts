@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Tournament } from '../interfaces/tournament.interface';
 import { Observable } from 'rxjs';
 import { AuthUser } from 'src/app/auth/interfaces/auth-user.interface';
+import { Ronda } from '../interfaces/ronda.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +40,31 @@ export class TournamentsService {
   getTournamentType(type: string): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(`${this._baseUrl}/get-tournaments-type/${type}`);
   }
+
+  //Rondes
+
+  getRondes(tournament_id: string): Observable<Ronda[]>{
+    return this.http.get<Ronda[]>(`${this._baseUrl}/rounds/${tournament_id}`);
+  }
+
+  deleteRondes(tournament_id: string): Observable<Ronda> {
+    return this.http.delete<Ronda>(`${this._baseUrl}/deleteRounds/${tournament_id}`);
+  }
+
+  updateRonda(tournamentId: string, roundNumber: number, round: Ronda): Observable<Ronda> {
+    return this.http.put<Ronda>(`${this._baseUrl}/updateRounds/${tournamentId}/${roundNumber}`, round);
+  }
+    //Actualizar torneo
+  updateTournament(tournamentId: string, tournament: Tournament): Observable<Tournament>{
+    return this.http.patch<Tournament>(`${this._baseUrl}/updateTournamentValues/${tournamentId}`,tournament);
+  }
+
+  addRound(tournamentId: string, round: Ronda): Observable<Ronda> {
+    return this.http.post<Ronda>(`${this._baseUrl}/add-round/${tournamentId}`, round);
+  }
+
+
+
+
+
 }

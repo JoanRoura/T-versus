@@ -19,7 +19,6 @@ import { SharedModule } from '../shared/shared.module';
 import { ImagePipe } from './pipes/image.pipe';
 import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
 
-
 @NgModule({
   declarations: [
     HomeComponent,

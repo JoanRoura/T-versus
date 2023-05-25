@@ -30,7 +30,7 @@ export class CreateTournamentComponent {
       description: [null, Validators.required]
     });
   }
-  
+
   createTournament() {
     const name = this.newTournament.value.name;
     const description = this.newTournament.value.description;
@@ -38,15 +38,20 @@ export class CreateTournamentComponent {
     this.loading = true;
 
     this.tournamentdb = {
-      description: description,
-      game: "Valorant",
-      id: this.getTournamentId().toString(),
-      image: 2131165640,
       name: name,
+      id: this.getTournamentId().toString(),
+      game: "Valorant",
       organizer: this.user.email,
+      description: description,
       price: 0,
-      type: "unofficial"
-    }
+      image: 2131165640,
+      type: "unofficial",
+      rounds: [],
+      users: [],
+      teamsNumber: 0,
+      reward: 0,
+      actualRound: 0
+    };
 
     this.tournamentService.createTournament(this.tournamentdb)
       .subscribe(resp => {
@@ -58,5 +63,5 @@ export class CreateTournamentComponent {
     const min = 100000;
     const max = 200000000;
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  } 
+  }
 }

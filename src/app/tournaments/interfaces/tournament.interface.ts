@@ -1,10 +1,17 @@
+import { Ronda } from "./ronda.interface";
+
 export interface Tournament {
-    price?:       number;
-    type?:        string;
-    organizer?:   string;
-    name?:        string;
-    image?:       number;
-    id?:          string;
-    game?:        string;
-    description?: string;
+  name?:        string;
+  id?:          string;
+  game?:        string;
+  organizer?:   string;
+  description?: string;
+  price?:       number;
+  image?:       number;
+  type?:        string;
+  rounds?:      Ronda[]
+  users:        Map<any, any>[]
+  teamsNumber:  number,
+  reward:       number,
+  actualRound:  number
 }

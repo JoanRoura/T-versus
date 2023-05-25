@@ -23,7 +23,7 @@ router.get('/users', async (req, res) => {
 router.post('/new-user', async (req, res) => {
 
     // TODO: Add camp tokens to the new user created
-    const { username, email, password, borndate, isJoined, tokens, tournament_id, image } = req.body
+    const { username, email, password, borndate, isJoined, tokens, tournament_id, image, devices} = req.body
 
     await db.collection('users').doc(email).set({
         username,
@@ -33,7 +33,8 @@ router.post('/new-user', async (req, res) => {
         isJoined,
         tokens,
         tournament_id,
-        image
+        image,
+        devices
     });
 
     res.send('New user created');
@@ -92,6 +93,8 @@ router.post('/update-user/:id', async (req, res) => {
     res.send("Updated user");
 });
 
+
+
 // Endpoints dels torneijos
 
 // Obtenit tots els torneijos
@@ -108,22 +111,60 @@ router.get('/tournaments', async (req, res) => {
 
 // Obtenir un torneig del Firestore
 router.get('/get-tournament/:id', async (req, res) => {
+  try {
+      const tournamentId = req.params.id;
+      const collectionRef = db.collection('tournaments');
+      const documentSnapshot = await collectionRef.doc(tournamentId).get();
 
-    const tournament = await db.collection('tournaments').doc(req.params.id).get();
-    res.send(tournament.data())
+      if (!documentSnapshot.exists) {
+          res.status(404).send('Tournament not found');
+      } else {
+          const tournament = documentSnapshot.data();
+          res.send(tournament);
+      }
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error');
+  }
 });
 
 // Crear un torneig
 router.post('/new-tournament', async (req, res) => {
+  const { description, game, id, image, name, organizer, price, type, rounds, teamsNumber, reward, actualRound } = req.body;
 
-    // TODO: Add camp tokens to the new user created
-    const { description, game, id, image, name, organizer, price, type } = req.body
+  const tournamentRef = db.collection('tournaments').doc(id);
+  const roundsRef = tournamentRef.collection('rounds');
 
-    await db.collection('tournaments').doc(id).set({
-        description, game, id, image, name, organizer, price, type
+  const tournamentData = {
+    description,
+    game,
+    id,
+    image,
+    name,
+    organizer,
+    price,
+    type,
+    teamsNumber,
+    reward,
+    actualRound
+  };
+
+  // Create a new tournament document and add its rounds collection
+  try {
+    await db.runTransaction(async (transaction) => {
+      // Create the tournament document
+      transaction.set(tournamentRef, tournamentData);
+
+      // Create the rounds collection
+      transaction.set(roundsRef.doc('0'), { roundNumber: 0 });
+
+      res.send('New tournament created');
     });
-
-    res.send('New tournament created');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
 });
 
 router.get('/get-tournaments-type/:id', async (req, res) => {
@@ -168,6 +209,25 @@ router.get('/get-tournaments-type/:id', async (req, res) => {
 //         res.status(500).send('Server error');
 //     }
 // });
+
+router.get('/get-users-by-tournament-id/:id', async (req, res) => {
+  try {
+    const collectionRef = db.collection('users');
+    const tournamentId = req.params.id;
+    const querySnapshot = await collectionRef.where('tournament_id', '==', tournamentId).get();
+
+    if (querySnapshot.empty) {
+      res.status(404).send(`Users not found for tournament with id ${tournamentId}`);
+    } else {
+      const usernames = querySnapshot.docs.map(doc => doc.get('username'));
+      res.send(usernames);
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
 
 router.post('/buy-tokens/:id', async (req, res) => {
 
@@ -214,6 +274,157 @@ router.delete('/delete-tournament/:id', async (req, res) => {
     res.send('Tournament Deleted')
 });
 
+router.post('/tournaments/:id/users', async (req, res) => {
+  try {
+    const tournamentId = req.params.id;
+    const userId = req.body.userId;
 
+    const tournamentRef = db.collection('tournaments').doc(tournamentId);
+    const userRef = db.collection('users').doc(userId);
+
+    // Verificar que tanto el usuario como el torneo existen
+    const tournamentDoc = await tournamentRef.get();
+    const userDoc = await userRef.get();
+
+    if (!tournamentDoc.exists) {
+      return res.status(404).send('Tournament not found');
+    }
+
+    if (!userDoc.exists) {
+      return res.status(404).send('User not found');
+    }
+
+    // Agregar el usuario a la colección "users" del torneo
+    await tournamentRef.collection('users').doc(userId).set({
+      name: userDoc.data().name,
+      email: userDoc.data().email,
+      // Aquí podrías incluir cualquier otra información del usuario que quieras guardar en la colección "users" del torneo
+    });
+
+    return res.send('User registered successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+router.post('/update-tournament/:id', async (req, res) => {
+  const { id } = req.params.id;
+  const { rounds } = req.body;
+
+  await db.collection('tournaments').doc(id).update({
+    rounds: {
+      rounds: rounds
+    }
+  });
+
+  res.send("Updated tournament");
+});
+
+router.get('/rounds/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tournamentRef = db.collection('tournaments').doc(id);
+    const roundsRef = tournamentRef.collection('rounds');
+
+    const snapshot = await roundsRef.orderBy('roundNumber').get();
+    const rounds = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    res.send(rounds);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.put('/updateRounds/:tournamentId/:roundNumber', async (req, res) => {
+  try {
+    const { tournamentId, roundNumber } = req.params;
+    const roundsRef = db.collection('tournaments').doc(tournamentId).collection('rounds');
+    const query = roundsRef.where('roundNumber', '==', parseInt(roundNumber));
+    const snapshot = await query.get();
+    if (snapshot.empty) {
+      throw new Error(`No round found with number ${roundNumber}`);
+    }
+    const roundRef = snapshot.docs[0].ref;
+    await roundRef.update(req.body);
+
+    res.send('Round updated successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.put('/updateTournamentValues/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    let { users, ...tournament } = req.body;
+
+    const tournamentRef = db.collection('tournaments').doc(id);
+    await tournamentRef.update(tournament);
+
+    res.status(200).json({ message: 'Tournament updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating tournament' });
+  }
+});
+
+router.delete('/deleteRounds/:tournamentId', async (req, res) => {
+  try {
+    const { tournamentId } = req.params;
+    const tournamentRef = db.collection('tournaments').doc(tournamentId);
+    const roundsRef = tournamentRef.collection('rounds');
+    const documentRef = roundsRef.doc('0');
+
+    await documentRef.delete();
+
+    res.send('Documento eliminado correctamente');
+  } catch (error) {
+    console.error('Error al eliminar el documento:', error);
+    res.status(500).send('Error al eliminar el documento');
+  }
+});
+
+router.get('/get-usersData-by-tournament-id/:id', async (req, res) => {
+  try {
+    const collectionRef = db.collection('users');
+    const tournamentId = req.params.id;
+    const querySnapshot = await collectionRef.where('tournament_id', '==', tournamentId).get();
+
+    if (querySnapshot.empty) {
+      res.status(404).send(`Users not found for tournament with id ${tournamentId}`);
+    } else {
+      const users = querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          username: data.username,
+          email: data.email
+        };
+      });
+
+      res.send(users);
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+router.post('/add-round/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const tournamentRef = db.collection('tournaments').doc(id);
+
+    await tournamentRef.collection('rounds').doc().set(req.body);
+
+    res.send(req.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+
+  }});
 
 module.exports = router;
