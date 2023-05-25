@@ -1,0 +1,28 @@
+.center-on-collapsed{
+    text-align: center;
+}
+
+.dropdown-item:hover{
+    color: #000000 !important;
+}
+
+.btn.btn-search{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.input-search{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav {
+        float: right;
+        margin: 0px;
+    }
+
+    .center-on-collapsed{
+        text-align: left;
+    }
+}

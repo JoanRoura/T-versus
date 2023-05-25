@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { TournamentsService } from '../../services/tournaments.service';
-import { Tournament } from '../../interfaces/tournament.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
+
+import { Tournament } from '../../interfaces/tournament.interface';
+import { idGenerated } from '../../utils/gen-tournament-id';
 
 @Component({
   selector: 'app-create-tournament',
@@ -44,13 +47,13 @@ export class CreateTournamentComponent {
       organizer: this.user.email,
       description: description,
       price: 0,
-      image: 2131165640,
       type: "unofficial",
       rounds: [],
       users: [],
       teamsNumber: 0,
       reward: 0,
-      actualRound: 0
+      actualRound: 0,
+      image: 2131165640,
     };
 
     this.tournamentService.createTournament(this.tournamentdb)

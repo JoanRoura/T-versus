@@ -4,8 +4,24 @@
     height: 100%;
 } */
 
-html, body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
     height: 100%;
+}
+
+/* body {
+    display: flex;
+    flex-direction: column;
+} */
+
+main {
+    flex-grow: 1;
 }
 
 ul {
@@ -43,6 +59,10 @@ ul {
     margin-right: 10px;
 }
 
+.admin-logo {
+    height: 50px;
+}
+
 .body {
     width: 100%;
     max-width: 330px;
@@ -57,4 +77,33 @@ ul {
 
 .errorLabel {
     margin-left: 5px;
+}
+
+.user-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.user-badge.status-false {
+    background: #FFCDD2;
+    color: #c63737;
+}
+
+.user-badge.status-true {
+    background: #C8E6C9;
+    color: #256029;
+}
+
+.user-badge.status-auth {
+    background: #FEEDAF;
+    color: #8a5340;
+}
+
+.user-badge.status-auth.no-bg {
+    background: none;
+    color: #8a5340;
 }

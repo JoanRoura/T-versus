@@ -1,60 +1,72 @@
 <div class="flex bg-dark mx-auto justify-content-center">
-    <div class="profile my-3 border border-danger reduce-on-collapsed">
-        <div class="profile-header">
-            <h1>Mi perfil</h1>
-            <div class="profile-avatar shadow p-3 rounded-circle tilt-div">
-                <img src="images/user.png">
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="profile-info col-md-3">
-
-                <div class="mb-5">
-                    <label class="btn btn-danger text-center" for="fileInput">
-                        <i class="bi bi-images me-1"></i>
-                        Change image                           
-                        <i class="bi bi-upload ms-1"></i>
-                    </label>
-
-                    <span class="hide">
-                        <input id="fileInput" class="form-control" type="file" accept="image/*">
-                    </span>
-                </div>
-
-                <div class="input-group mb-4">
-                    <span class="input-group-text bg-danger text-white border-0 text-center">Usuario</span>
-                    <input type="text" class="form-control custom-input" value="Joan Asecas" aria-label="Username" aria-describedby="basic-addon1">
-                </div>
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text bg-danger text-white border-0 text-center">Nacimiento</span>
-                    <!--formato para el value del datepicker: yyyy-mm-dd-->
-                    <input type="date" class="form-control custom-input" value="2003-04-21" aria-label="Birthdate" aria-describedby="basic-addon1">
-                </div>
-
-                <span>Registrado el 5 de marzo de 2023</span>
-
-                <div class="btn-group mt-5" role="group" aria-label="Cancel&Save">
-                    <button type="button" class="btn btn-outline-danger">
-                        <i class="bi bi-arrow-repeat"></i>
-                        Descartar Cambios
-                    </button>
-                    <button type="button" class="btn btn-danger" id="save-button">
-                        <i class="bi bi-device-ssd-fill"></i>
-                        Guardar cambios
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="profile-games">
-            <h2>Juegos</h2>
-            <div class="profile-game tilt-div">
-                <p>Valorant</p>
-                <span>100 horas jugadas</span>
-                <img src="https://styles.redditmedia.com/t5_2gt9zb/styles/communityIcon_rsg25kbthbk41.png">
-            </div>
-        </div>
+  <div class="profile my-3 border border-danger reduce-on-collapsed">
+    <div class="profile-header">
+      <h1>Mi perfil</h1>
+      <div class="profile-avatar ratio shadow p-3 rounded-circle tilt-div">
+        <img src={{userProfile.image}}>
+      </div>
     </div>
+
+    <div class="row justify-content-center">
+      <div class="profile-info col-md-3">
+
+        <div class="mb-5">
+          <label class="btn btn-danger text-center" for="fileInput">
+            <i class="bi bi-images me-1"></i>
+            Change image
+            <i class="bi bi-upload ms-1"></i>
+          </label>
+
+          <span class="hide">
+                       <input id="fileInput" class="form-control" type="file" accept="image/*">
+                   </span>
+        </div>
+        <div>
+
+
+          <div class="input-group mb-4">
+            <span class="input-group-text bg-danger text-white border-0 text-center">Usuario</span>
+            <input type="text" class="form-control custom-input" formControlName="username"
+                   value={{userProfile.username}} aria-label="Username" aria-describedby="basic-addon1">
+
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-danger text-white border-0 text-center">Nacimiento</span>
+            <!--formato para el value del datepicker: yyyy-mm-dd-->
+            <input type="text" formControlName="borndate" class="form-control custom-input"
+                   value={{userProfile.borndate}} aria-label="Birthdate" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <span>Registrado el 5 de marzo de 2023</span>
+
+        <div class="btn-group mt-5" role="group" aria-label="Cancel&Save">
+          <button type="button" class="btn btn-outline-danger" (click)="discardChanges()">
+            <i class="bi bi-arrow-repeat"></i>
+            Descartar Cambios
+          </button>
+          <button type="submit" class="btn btn-danger" id="save-button" (click)="updateProfile()">
+            <i class="bi bi-device-ssd-fill"></i>
+            Guardar cambios
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-games">
+      <h2>Juegos</h2>
+      <div class="profile-game tilt-div">
+        <p>Valorant</p>
+        <span>100 horas jugadas</span>
+        <img src="https://styles.redditmedia.com/t5_2gt9zb/styles/communityIcon_rsg25kbthbk41.png">
+      </div>
+    </div>
+    <div class="mb-3" >
+      <button pRipple pButton class="btn btn-danger text-center" (click)="deleteAccount()">
+        Delete Account
+      </button>
+    </div>
+  </div>
 </div>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

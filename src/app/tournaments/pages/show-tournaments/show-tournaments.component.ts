@@ -11,25 +11,26 @@ import { switchMap } from 'rxjs';
 })
 export class ShowTournamentsComponent implements OnInit {
 
+  tournaments!: Tournament[];
+  tournamentType: string = '';
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private tournamnetService: TournamentsService) { }
 
-
   ngOnInit(): void {
 
-    // this.activatedRoute.params
-    //   .pipe(
-    //     switchMap(({ id }) => this.)
-    //   )
-    
+    this.activatedRoute.params
+      .pipe(
+        switchMap(({ id }) => this.tournamnetService.getTournamentType(id))
+      )
+      .subscribe(tournaments => {
+        this.tournaments = tournaments;
+      });
+
+    this.activatedRoute.params.subscribe(params => {
+      this.tournamentType = params['id']; 
+      console.log(this.tournamentType);
+    });
   }
-
-  tournaments!: Tournament[];
-
-  typeTournament: string = "unofficial";
-  typeTournament2: string = "official";
-
-
-
 }

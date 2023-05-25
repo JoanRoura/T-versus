@@ -9,10 +9,7 @@ const app = express();
 app.use(morgan('dev'));
 // Quan s'envi un metode 'post' atraves de un formulari, el servidor el podra entendra i es podra gestionar
 app.use(express.json());
-app.use(cors({
-    origin: 'http://localhost:4200',
-    optionsSuccessStatus: 200 
-  }));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(require('./src/routes/index'));
@@ -63,7 +60,7 @@ module.exports = app;
 //         disabled: false
 //     })
 //     res.json(userReponse);
-// }) 
+// })
 
 // app.get('/login', async (res) => {
 //     console.log(req.body)

@@ -19,7 +19,7 @@ export class StoreItemCardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private storeService: StoreService) { }
-  
+
   ngOnInit(): void {
 
     // Obtener los tokens del usuario
@@ -32,7 +32,6 @@ export class StoreItemCardComponent implements OnInit {
   buyTokens(tokens: number) {
 
     const totalTokens = this.currentTokensUser! + tokens;
-  
     this.storeService.buyTokens(this.user.email, totalTokens)
       .subscribe(resp => {
         console.log(resp);

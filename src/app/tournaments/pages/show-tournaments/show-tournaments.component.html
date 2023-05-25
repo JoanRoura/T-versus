@@ -1,20 +1,20 @@
-<div class="h-100 bg-principal-color pt-3">
+<div class="py-4">
     <div class="mx-4 text_layout h-100">
-  
+
         <div class="mb-4">
-          <h1>Lista de torneos: <small> {{ typeTournament | titlecase }} </small> </h1>
+          <h1 class="mb-4 text-warning">Lista de torneos: <small> {{ tournamentType | titlecase }} </small> </h1>
         </div>
-      
+
         <div class="flex flex-row flex-wrap justify-content-center gap-4">
-      
+
           <div *ngFor="let tournament of tournaments">
-        
+
             <app-tournament-card [tournament]="tournament"></app-tournament-card>
-        
+
           </div>
-        
+
         </div>
-      
+
       </div>
 
 </div>

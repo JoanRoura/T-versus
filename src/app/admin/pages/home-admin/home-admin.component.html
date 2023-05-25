@@ -1,13 +1,49 @@
-<p-sidebar [(visible)]="display">
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+        <p-button styleClass="p-button-text" icon="pi pi-align-justify" (click)="visibleSidebar = true"></p-button>
+    </div>
+
+    <div class="p-toolbar-group-right">
+        <p-button styleClass="p-button-text" (click)="logOut()">Sign out</p-button>
+    </div>
+</p-toolbar>
+
+<p-sidebar [(visible)]="visibleSidebar" styleClass="bg-principal-color">
+
     <ng-template pTemplate="header">
-        
+
+        <div class="flex">
+            <img class="flex admin-logo" src="../../../../assets/images/logoVersus.png" alt="Imagen corporativa de T-Versus">
+            <h5 class="align-self-start flex pl-3 m-0">TVersus Admin</h5>
+        </div>
+       
     </ng-template>
 
     <ng-template pTemplate="content">
+        <div class="flex flex-column pt-1">
+            <p-button label="List Tournaments" 
+                      styleClass="p-button-text" 
+                      icon="pi pi-list" 
+                      routerLink="/admin/list-tournaments"
+                      (click)="visibleSidebar = false">
+            </p-button>
 
-    </ng-template>
-    
-    <ng-template pTemplate="footer">
+            <p-button label="List Users" 
+                      styleClass="p-button-text" 
+                      icon="pi pi-users" 
+                      routerLink="/admin/list-users"
+                      (click)="visibleSidebar = false">
+            </p-button>
 
+            <p-button label="Create Official Tournaments" 
+                      styleClass="p-button-text" 
+                      icon="pi pi-plus"
+                      routerLink="/admin/create-official-tournament"
+                      (click)="visibleSidebar = false">
+            </p-button>
+        </div>
     </ng-template>
+
 </p-sidebar>
+
+<router-outlet></router-outlet>
