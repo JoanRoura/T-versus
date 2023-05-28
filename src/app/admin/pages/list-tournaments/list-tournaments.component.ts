@@ -126,6 +126,7 @@ export class ListTournamentsComponent implements OnInit {
       organizer: this.user.email,
       price: price ?? 0,
       type: tournamentType
+      
     }
 
     console.log(this.tournament);

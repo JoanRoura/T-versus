@@ -8,6 +8,7 @@ import { TournamentsService } from '../../services/tournaments.service';
 import { AuthUser } from 'src/app/auth/interfaces/auth-user.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Ronda } from '../../interfaces/ronda.interface';
 
 // interface isJoined2 {
 //   idTournament: string;
@@ -30,7 +31,6 @@ export class TournamentComponent implements OnInit {
 
   tournament!: Tournament;
   usersInTournament!: AuthUser[];
-
   userJoinedInTournament!: AuthUser;
 
   get user() {
@@ -52,6 +52,8 @@ export class TournamentComponent implements OnInit {
       )
       .subscribe((tournament) => {
         this.tournament = tournament
+        console.log(this.tournament)
+        this.seeRounds()
       });
 
     // Obtenir el current user
@@ -147,10 +149,26 @@ export class TournamentComponent implements OnInit {
 
   seeRounds() {
 
+      this.tournamentsService.getRondes(this.tournament.id??"0").subscribe((rondas: Ronda[]) => {
+
+        this.tournament.rounds = rondas;
+
+        console.log("Torneo actualizado con las rondas:");
+        console.log(this.tournament);
+      }, (error) => {
+        // Manejar el error de getRondes
+        console.error("Error al obtener las rondas del torneo:", error);
+      });
+
+
+
+
     const tournamentId = this.tournament.id;
     console.log(tournamentId)
-    this.router.navigate(['/tournaments/roundsAdmin'], { queryParams: { tournamentId: tournamentId } });
+
   }
+
+
   // userIsJoined(): string {
   //   return (this.msgTournamentButton.isJoined && this.msgTournamentButton.idTournament == this.tournament.id)
   //     ? "Salir del Torneo"

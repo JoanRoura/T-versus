@@ -12,8 +12,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { AdminTournamentRondesComponent } from './admin-tournament-rondes/admin-tournament-rondes.component';
-import { AdminDatosRondaComponent } from './admin-datos-ronda/admin-datos-ronda.component';
-import { AdminDetallMatchComponent } from './admin-detall-match/admin-detall-match.component';
+import  {MessageService } from 'primeng/api';
+
+import { FormsModule } from '@angular/forms';
+import { AdminDatosRondaComponent } from './tournaments/pages/tournament/admin-datos-ronda/admin-datos-ronda.component';
+import { AdminDetallMatchComponent } from './tournaments/pages/tournament/admin-detall-match/admin-detall-match.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,6 @@ import { AdminDetallMatchComponent } from './admin-detall-match/admin-detall-mat
     AdminTournamentRondesComponent,
     AdminDatosRondaComponent,
     AdminDetallMatchComponent
-
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { AdminDetallMatchComponent } from './admin-detall-match/admin-detall-mat
     provideAuth(() => getAuth()),
     // AngularFireModule.initializeApp(environment.firebase),
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added,
+    ToastrModule.forRoot(), // ToastrModule added,
+    FormsModule
   ],
   providers: [],
   bootstrap: [

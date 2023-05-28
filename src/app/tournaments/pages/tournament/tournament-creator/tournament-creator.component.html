@@ -1,0 +1,87 @@
+<div  class="h-100 p-4">
+  <h2>CREADOR{{ tournament.name }}</h2>
+
+  <p-tabView styleClass="tabview-custom">
+
+      <p-tabPanel header="Descripcion">
+
+          <ng-template pTemplate="header">
+              <i class="pi pi-info-circle"></i>
+              <span>Descripcion</span>
+          </ng-template>
+
+                  <div class="row">
+                      <div class="col-12 col-md-6">
+                          <h4>{{ tournament.game }}</h4>
+                          <p-divider></p-divider>
+                          <br>
+                          <img class="w-full rounded-3" [src]="tournament | image">
+                      </div>
+
+                      <div class="col-12 col-md-6">
+                        <div>
+                          <h4 contentEditable="true" (input)="onNameInput($event)">{{ tournament.name }}</h4>
+                          <p-divider></p-divider>
+
+                            <div>
+                              <p contentEditable="true" (input)="onDescInput($event)">{{ tournament.description }}</p>
+                              <p-divider></p-divider>
+                            </div>
+                        </div>
+                          <p-divider></p-divider>
+
+                          <ul class="pb-4">
+                              <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
+                              <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
+                              <li class="py-2"><strong>Modality:</strong> {{ tournament.modality }}</li>
+                              <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>
+                          </ul>
+
+
+
+
+              <button
+                  pButton
+                  type="button"
+                  label="Save changes"
+                  class="p-button-secondary p-button-raised p-button-text"
+                  (click)="saveValues()">
+              </button>
+
+          </div>
+
+          <div class="col-12 mt-3">
+              <h4>Players in the Tournament</h4>
+              <p-divider></p-divider>
+
+              <div *ngFor="let user of usersInTournament" class="flex align-items-center mb-3">
+
+                  <img src="{{ user.image }}" alt="Profile pic" class="rounded-circle w-3rem">
+                  <p class="ml-3 mb-0"> {{ user.username }} </p>
+
+              </div>
+          </div>
+
+          <div class="container" *ngIf="tournament.modality === 'Teams'">
+            <div class="row align-items-start flex-column">
+
+              <div *ngIf="tournament.rounds && tournament.rounds.length > 0">
+                <!-- Mostrar componentes de rondas -->
+                <div *ngFor="let ronda of tournament.rounds">
+                  <app-admin-componente-ronda [ronda]="ronda" [torneig]="tournament"></app-admin-componente-ronda>
+                </div>
+              </div>
+
+              <div *ngIf="!tournament.rounds || tournament.rounds.length === 0">
+                <!-- Mostrar botón cuando no hay rondas -->
+                <button (click)="firstRound()">Crear ronda</button>
+              </div>
+            </div>
+          </div>
+
+      <p-tabPanel header="Partidas">
+          <ng-template pTemplate="header">
+              <i class="pi pi-sitemap"></i>
+              <span>Partidas</span>
+          </ng-template>
+

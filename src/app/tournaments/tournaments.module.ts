@@ -21,6 +21,11 @@ import { TournamentComponent } from './pages/tournament/tournament.component';
 import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
 
 import { ImagePipe } from './pipes/image.pipe';
+import { SeeRoundsComponent } from './pages/tournament/see-rounds/see-rounds.component';
+import { SeeMatchesComponent } from './pages/tournament/see-matches/see-matches.component';
+import { TournamentCreatorComponent } from './pages/tournament/tournament-creator/tournament-creator.component';
+import { AdminComponenteRondaComponent } from './components/admin-componente-ronda/admin-componente-ronda.component';
+import { AdminComponenteMatchComponent } from './components/admin-componente-match/admin-componente-match.component';
 
 
 @NgModule({
@@ -35,7 +40,12 @@ import { ImagePipe } from './pipes/image.pipe';
     EditTournamentComponent,
     TournamentComponent,
     ImagePipe,
-    ShowTournamentsComponent
+    ShowTournamentsComponent,
+    SeeRoundsComponent,
+    SeeMatchesComponent,
+    TournamentCreatorComponent,
+    AdminComponenteRondaComponent,
+    AdminComponenteMatchComponent
   ],
   imports: [
     CommonModule,

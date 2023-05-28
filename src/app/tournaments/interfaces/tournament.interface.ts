@@ -10,8 +10,9 @@ export interface Tournament {
   image?:       number;
   type?:        string;
   rounds?:      Ronda[]
-  users:        Map<any, any>[]
-  teamsNumber:  number,
-  reward:       number,
-  actualRound:  number
+  users?:        Map<any, any>[]
+  teamsNumber?:  number,
+  reward?:       number,
+  actualRound?:  number,
+  modality?: string;
 }

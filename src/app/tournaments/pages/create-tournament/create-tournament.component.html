@@ -1,4 +1,4 @@
-<div class="container mt-3 h-100">
+<!-- <div class="container mt-3 h-100">
     <div *ngIf="!loading">
         <h1 class="mb-4 text_dark">Crear Torneo</h1>
 
@@ -22,5 +22,51 @@
         </form>
 
     </div>
-</div>
+</div> -->
 
+<div class="container mt-3 h-100">
+  <div *ngIf="!loading">
+      <h1 class="mb-4 text_dark">Crear Torneo</h1>
+
+      <form [formGroup]="newTournament" (ngSubmit)="selectedModality === 'Teams' ? createTournamentEquips() : createTournament()">
+
+          <div class="form-floating mb-3">
+              <input type="text" formControlName="name" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+              <label for="floatingInput">Name Tournament</label>
+          </div>
+
+
+
+          <div class="form-floating mb-3">
+            <textarea type="text" formControlName="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Description</label>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="modalitySelect">Select modality</label>
+            <select class="form-control" id="modalitySelect" (change)="onModalityChange($event)">
+              <option disabled selected>Select modality</option>
+              <option>Teams</option>
+              <option>Individual</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3" *ngIf="selectedModality === 'Teams'">
+            <label for="modalitySelect">Select number of teams</label>
+            <select class="form-control" id="modalitySelect" (change)="onNumberOfTeamsChange($event)">
+              <option>8</option>
+              <option>12</option>
+            </select>
+          </div>
+
+          <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+          <div class="flex">
+            <button type="submit" class="btn btn-primary mr-3" [disabled]="!selectedModality" >Create</button>
+
+              <button type="button" class="btn btn-outline-danger">Cancel</button>
+          </div>
+      </form>
+
+  </div>
+</div>

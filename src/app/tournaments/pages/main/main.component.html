@@ -3,21 +3,21 @@
   <app-carousel></app-carousel>
 
   <div class="mt-4 mx-4 text_layout h-100">
-  
+
     <div class="mb-4">
       <h1>Lista de torneos</h1>
     </div>
-  
+
     <div class="flex flex-row flex-wrap justify-content-center gap-4">
-  
+
       <div *ngFor="let tournament of tournaments">
-    
-        <app-tournament-card [tournament]="tournament"></app-tournament-card>
-    
+
+        <app-tournament-card [tournament]="tournament" [email]="email"></app-tournament-card>
+
       </div>
-    
+
     </div>
-  
+
   </div>
 
 </div>

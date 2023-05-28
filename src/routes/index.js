@@ -131,7 +131,40 @@ router.get('/get-tournament/:id', async (req, res) => {
 
 // Crear un torneig
 router.post('/new-tournament', async (req, res) => {
-  const { description, game, id, image, name, organizer, price, type, rounds, teamsNumber, reward, actualRound } = req.body;
+  const { description, game, id, image, name, organizer, price, type, reward, modality } = req.body;
+
+  const tournamentRef = db.collection('tournaments').doc(id);
+  const roundsRef = tournamentRef.collection('rounds');
+
+  const tournamentData = {
+    description,
+    game,
+    id,
+    image,
+    name,
+    organizer,
+    price,
+    type,
+    reward,
+    modality
+  };
+
+  // Create a new tournament document and add its rounds collection
+  try {
+    await db.runTransaction(async (transaction) => {
+      // Create the tournament document
+      transaction.set(tournamentRef, tournamentData);
+
+      res.send('New tournament created');
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+router.post('/new-tournament-teams', async (req, res) => {
+  const { description, game, id, image, name, organizer, price, type, rounds, teamsNumber, reward, actualRound, modality } = req.body;
 
   const tournamentRef = db.collection('tournaments').doc(id);
   const roundsRef = tournamentRef.collection('rounds');
@@ -147,7 +180,8 @@ router.post('/new-tournament', async (req, res) => {
     type,
     teamsNumber,
     reward,
-    actualRound
+    actualRound,
+    modality
   };
 
   // Create a new tournament document and add its rounds collection
@@ -373,7 +407,7 @@ router.put('/updateRounds/:tournamentId/:roundNumber', async (req, res) => {
   }
 });
 
-router.put('/updateTournamentValues/:id', async (req, res) => {
+router.patch('/updateTournamentValues/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let { users, ...tournament } = req.body;

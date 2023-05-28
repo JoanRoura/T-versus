@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { Tournament } from '../../interfaces/tournament.interface';
 import { idGenerated } from '../../utils/gen-tournament-id';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-tournament',
@@ -16,6 +17,15 @@ export class CreateTournamentComponent {
 
   newTournament: FormGroup;
   tournamentdb!: Tournament;
+  selectedModality: string="";
+  teamsNumber: string="8";
+  errorMessage: string = '';
+
+
+  onModalityChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedModality = target.value;
+  }
 
   loading: boolean = false;
 
@@ -26,7 +36,8 @@ export class CreateTournamentComponent {
   constructor(
     private tournamentService: TournamentsService,
     private fb: FormBuilder,
-    private authService: AuthService) {
+    private authService: AuthService,private router: Router
+   ) {
 
     this.newTournament = this.fb.group({
       name: [null, Validators.required],
@@ -34,9 +45,49 @@ export class CreateTournamentComponent {
     });
   }
 
+  //Hacer otro para los torneos por rondas
   createTournament() {
     const name = this.newTournament.value.name;
     const description = this.newTournament.value.description;
+
+    if (!name || !description) {
+      this.errorMessage = 'Por favor, completa todos los campos';
+      return;
+    }
+
+    this.loading = true;
+
+    this.tournamentdb = {
+      name: name,
+      id: idGenerated().toString(),
+      game: "Valorant",
+      organizer: this.user.email,
+      description: description,
+      price: 0,
+      type: "unofficial",
+      reward: 0,
+      image: 2131165640,
+      modality: "Individual"
+    };
+
+
+    this.tournamentService.createTournament(this.tournamentdb)
+      .subscribe(resp => {
+        console.log(resp);
+      });
+
+      this.router.navigate(['/tournaments/chose-tournament']);
+      //Navigate
+  }
+
+  createTournamentEquips() {
+    const name = this.newTournament.value.name;
+    const description = this.newTournament.value.description;
+
+    if (!name || !description) {
+      this.errorMessage = 'Por favor, completa todos los campos';
+      return;
+    }
 
     this.loading = true;
 
@@ -50,16 +101,25 @@ export class CreateTournamentComponent {
       type: "unofficial",
       rounds: [],
       users: [],
-      teamsNumber: 0,
+      teamsNumber: +this.teamsNumber,
       reward: 0,
       actualRound: 0,
       image: 2131165640,
+      modality: "Teams"
     };
 
-    this.tournamentService.createTournament(this.tournamentdb)
+    this.tournamentService.createTeamsTournament(this.tournamentdb)
       .subscribe(resp => {
         console.log(resp);
       });
+
+      //Navigate
+      this.router.navigate(['/tournaments/chose-tournament']);
+  }
+
+  onNumberOfTeamsChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedModality = target.value;
   }
 
   getTournamentId(): number {

@@ -1,5 +1,5 @@
-<p-card header="{{ tournament.name }}" 
-        subheader="{{ tournament.game | titlecase }}" 
+<p-card header="{{ tournament.name }}"
+        subheader="Game: {{ tournament.game | titlecase }} | Modality:{{ tournament.modality }}"
         [style]="{width: '360px'}"
         styleClass="p-card-shadow col-12 md:col-3 lg:col-2 text-bg-danger">
 
@@ -8,21 +8,29 @@
     </ng-template>
 
     <p> {{ tournament.description }} </p>
-
+    <p></p>
     <ng-template pTemplate="footer">
 
-        <button pButton 
+        <!-- <button pButton
                 label="Entrar"
                 icon="pi pi-play"
                 class="p-button-raised p-button-rounded p-button-warning"
                 [routerLink]="['/tournaments', tournament.id]">
+        </button> -->
+
+        <button pButton
+        label="Entrar"
+        icon="pi pi-play"
+        class="p-button-raised p-button-rounded p-button-warning"
+        [routerLink]="isCreator ? ['/tournaments/creator', tournament.id] :['/tournaments', tournament.id]">
         </button>
-        <!-- <button pButton 
-                label="Saber Mas" 
-                icon="pi pi-info-circle" 
+
+        <!-- <button pButton
+                label="Saber Mas"
+                icon="pi pi-info-circle"
                 class="p-button-info  p-button-rounded"
                 [style]="{'margin-left': '.5em'}"
-                [routerLink]="['/tournaments/edit-tournament', tournament.id]"> 
+                [routerLink]="['/tournaments/edit-tournament', tournament.id]">
         </button> -->
 
     </ng-template>

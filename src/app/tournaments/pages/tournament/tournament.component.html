@@ -1,3 +1,4 @@
+
 <div  class="h-100 p-4">
     <h2>{{ tournament.name }}</h2>
 
@@ -28,68 +29,40 @@
                             <ul class="pb-4">
                                 <li class="py-2"><strong>Organizer:</strong> {{ tournament.organizer }}</li>
                                 <li class="py-2"><strong>Type of Tournament:</strong> {{ tournament.type }}</li>
+                                <li class="py-2"><strong>Modality:</strong> {{ tournament.modality }}</li>
                                 <li class="py-2"> <strong>Price of the Tournament:</strong> {{ tournament.price }} </li>
                             </ul>
 
-                            <div class=" flex flex-column pb-5">
-                                <button
-                                    pButton
-                                    type="button"
-                                    label="Entrar en el Torneo"
-                                    class="p-button-success p-button-raised p-button-text"
-                                    (click)="joinTournament()"
-                                    [disabled]="this.userJoinedInTournament.isJoined">
-                                </button>
+                <button
+                    pButton
+                    type="button"
+                    label="Entrar en el Torneo"
+                    class="p-button-success p-button-raised p-button-text"
+                    (click)="joinTournament()"
+                    [disabled]="this.userJoinedInTournament.isJoined">
+                </button>
 
-                                <button
-                                    pButton
-                                    type="button"
-                                    label="Salir del Torneo"
-                                    class="p-button-danger p-button-raised p-button-text"
-                                    (click)="disjoinTournament()"
-                                    [disabled]="!this.userJoinedInTournament.isJoined">
-                                </button>
+                <button
+                    pButton
+                    type="button"
+                    label="Salir del Torneo"
+                    class="p-button-danger p-button-raised p-button-text"
+                    (click)="disjoinTournament()"
+                    [disabled]="!this.userJoinedInTournament.isJoined">
+                </button>
 
-                                <button
-                                    pButton
-                                    type="button"
-                                    label="Ver Emparejamientos"
-                                    class="p-button-info p-button-raised p-button-text"
-                                    (click)="goBack()">
+                <button
+                    pButton
+                    type="button"
+                    label="Go Back"
+                    class="p-button-secondary p-button-raised p-button-text"
+                    (click)="goBack()">
+                </button>
 
-                                </button>
-                            </div>
-
-                            <div class="flex flex-row justify-content-center">
-                                <button
-                                    pButton
-                                    type="button"
-                                    label="Volver Atras"
-                                    class="p-button-secondary p-button-raised p-button-text"
-                                    (click)="goBack()">
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div *ngIf="loading">
-                    <app-spinner></app-spinner>
-                </div>
             </div>
 
-        </p-tabPanel>
-
-        <p-tabPanel header="Jugadores">
-            <ng-template pTemplate="header">
-                <i class="pi pi-user"></i>
-                <span>Jugadores</span>
-            </ng-template>
-
-            <div>
-                <h5>Confirmados</h5>
-                <p>Estos jugadores están participando en el torneo.</p>
+            <div class="col-12 mt-3">
+                <h4>Players in the Tournament</h4>
                 <p-divider></p-divider>
 
                 <div *ngFor="let user of usersInTournament" class="flex align-items-center mb-3">
@@ -99,7 +72,15 @@
 
                 </div>
             </div>
-        </p-tabPanel>
+
+            <div class="container" *ngIf="tournament.modality === 'Teams'">
+              <div class="row align-items-start flex-column">
+
+                <div  *ngFor="let ronda of tournament.rounds">
+                  <app-see-rounds [ronda]="ronda",[torneig]="tournament"></app-see-rounds>
+                </div>
+              </div>
+            </div>
 
         <p-tabPanel header="Partidas">
             <ng-template pTemplate="header">
@@ -109,8 +90,9 @@
 
 
 
-        </p-tabPanel>
-    </p-tabView>
-</div>
 
+
+    <div *ngIf="loading">
+        <app-spinner></app-spinner>
+    </div>
 

@@ -107,3 +107,10 @@ ul {
     background: none;
     color: #8a5340;
 }
+
+.green-text {
+  background-color: rgba(0, 128, 0, 0.5);
+}
+.black-text {
+  
+}

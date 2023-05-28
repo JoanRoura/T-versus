@@ -1,0 +1,14 @@
+<div class="row">
+  <h3 (click)="togglePreview()">
+    Ronda {{ ronda.roundNumber }}
+    <span class="toggle-icon">{{ previewExpanded ? '▲' : '▼' }}</span>
+  </h3>
+  <ng-container *ngIf="previewExpanded">
+    <div class="col-md-4" *ngFor="let match of matches">
+      <app-see-matches [match]="match"></app-see-matches>
+    </div>
+  </ng-container>
+  <div role="separator" ng-reflect-ng-class="[object Object]" class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left">
+    <div class="p-divider-content"></div>
+  </div>
+</div>

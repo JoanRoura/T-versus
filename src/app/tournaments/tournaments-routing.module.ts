@@ -10,6 +10,7 @@ import { EditTournamentComponent } from './pages/edit-tournament/edit-tournament
 import { TournamentComponent } from './pages/tournament/tournament.component';
 import { ShowTournamentsComponent } from './pages/show-tournaments/show-tournaments.component';
 import { AdminTournamentRondesComponent } from '../admin-tournament-rondes/admin-tournament-rondes.component';
+import { TournamentCreatorComponent } from './pages/tournament/tournament-creator/tournament-creator.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
       {
         path: ':id',
         component: TournamentComponent
+      },
+      {
+        path: 'creator/:id',
+        component: TournamentCreatorComponent
       },
       {
         path: '**',

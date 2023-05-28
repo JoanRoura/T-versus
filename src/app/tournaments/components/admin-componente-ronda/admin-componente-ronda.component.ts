@@ -1,27 +1,30 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AdminDetallMatchComponent } from '../admin-detall-match/admin-detall-match.component';
-import { Match } from '../tournaments/interfaces/match.interface';
-import { Ronda } from '../tournaments/interfaces/ronda.interface';
-import { Equip } from '../tournaments/interfaces/equip.interface';
-import { TournamentsService } from '../tournaments/services/tournaments.service';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Equip } from '../../interfaces/equip.interface';
+import { Match } from '../../interfaces/match.interface';
+import { Ronda } from '../../interfaces/ronda.interface';
+import { AdminDetallMatchComponent } from '../../pages/tournament/admin-detall-match/admin-detall-match.component';
+import { TournamentsService } from '../../services/tournaments.service';
+import { AdminComponenteMatchComponent } from '../admin-componente-match/admin-componente-match.component';
+import { Tournament } from '../../interfaces/tournament.interface';
 
 @Component({
-  selector: 'app-admin-datos-ronda',
-  templateUrl: './admin-datos-ronda.component.html',
-  styleUrls: ['./admin-datos-ronda.component.css']
+  selector: 'app-admin-componente-ronda',
+  templateUrl: './admin-componente-ronda.component.html',
+  styleUrls: ['./admin-componente-ronda.component.css']
 })
-
-export class AdminDatosRondaComponent implements OnInit {
+export class AdminComponenteRondaComponent {
+  @Input() torneig!: Tournament;
   @Input() ronda!: Ronda;
   @Output() rondaEnviada = new EventEmitter<Ronda>();
-  @ViewChildren(AdminDetallMatchComponent) matchComponents!: QueryList<AdminDetallMatchComponent>;
+  @ViewChildren(AdminComponenteMatchComponent) matchComponents!: QueryList<AdminComponenteMatchComponent>;
 
   matchForm: FormGroup;
   matches: Match[] | undefined;
 
   constructor(private formBuilder: FormBuilder, private tournamentService: TournamentsService) {
     this.matchForm = this.formBuilder.group({});
+
   }
 
   previewExpanded: boolean = false;
@@ -29,7 +32,7 @@ export class AdminDatosRondaComponent implements OnInit {
   togglePreview() {
     this.previewExpanded = !this.previewExpanded;
   }
-  
+
   ngOnInit() {
     this.matches = this.ronda.matches;
   }
@@ -54,11 +57,15 @@ export class AdminDatosRondaComponent implements OnInit {
     let i: number = 0;
     let j: number = 0;
 
-    this.matchComponents.forEach((component: AdminDetallMatchComponent) => {
+    this.matchComponents.forEach((component: AdminComponenteMatchComponent) => {
       const ganador = component.obtenerSeleccion();
       console.log('Ganador:', ganador);
 
-      this.ronda.matches[i].ganador = ganador;
+      if (ganador) {
+        this.ronda.matches[i].ganador = ganador;
+      } else {
+        console.log("algo va mal")
+      }
       this.ronda.matches[i].ganadorSeleccionado = true;
 
       if (ganador === undefined) {
@@ -82,6 +89,16 @@ export class AdminDatosRondaComponent implements OnInit {
     this.tournamentService.updateRonda(this.ronda.tournamentId, this.ronda.roundNumber, this.ronda).subscribe((updatedRound: Ronda) => {
       console.log('Ronda actualizada:', updatedRound);
     });
+    console.log("Torneig "+this.torneig.actualRound)
+    if (this.torneig.actualRound !== undefined) {
+      this.torneig.actualRound=this.torneig.actualRound+1
+    }
+
+    console.log("Torneig "+this.torneig.actualRound)
+    this.tournamentService.updateTournament (this.ronda.tournamentId,this.torneig)
+      .subscribe(resp => {
+        console.log(resp);
+      });
 
     this.createNewRound();
 

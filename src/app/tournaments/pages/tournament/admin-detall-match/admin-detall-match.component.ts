@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Equip } from '../tournaments/interfaces/equip.interface';
+import { Equip } from '../../../interfaces/equip.interface';
 
 @Component({
   selector: 'app-admin-detall-match',

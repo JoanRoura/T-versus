@@ -29,6 +29,10 @@ export class TournamentsService {
     return this.http.post<Tournament>(`${this._baseUrl}/new-tournament`, tournament);
   }
 
+  createTeamsTournament(tournament: Tournament): Observable<Tournament> {
+    return this.http.post<Tournament>(`${this._baseUrl}/new-tournament-teams`, tournament);
+  }
+
   getUsersInTournament(id: string): Observable<AuthUser[]> {
     return this.http.get<AuthUser[]>(`${this._baseUrl}/get-players-by-tournament/${id}`)
   }
@@ -45,9 +49,9 @@ export class TournamentsService {
     return this.http.get<Tournament>(`${this._baseUrl}/delete-tournament/${idTournament}`);
   }
 
-  updateTournament(idTournament: string, tournament: Tournament): Observable<Tournament> {
-    return this.http.post<Tournament>(`${this._baseUrl}/update-tournament/${idTournament}`, tournament);
-  }
+  // updateTournament(idTournament: string, tournament: Tournament): Observable<Tournament> {
+  //   return this.http.post<Tournament>(`${this._baseUrl}/update-tournament/${idTournament}`, tournament);
+  // }
 
   //Rondes
 

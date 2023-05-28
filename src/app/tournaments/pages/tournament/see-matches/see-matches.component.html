@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-body">
+    <!-- <h3>{{ match.equipo1.nombre }} vs {{ match.equipo2.nombre }}</h3> -->
+    <div class="row">
+      <div class="col-md-6" [ngClass]="{'green-text': match.ganador.nom == match.equipo1.nom, 'black-text': match.ganador.nom !== match.equipo1.nom}">
+        <p>Integrantes {{ match.equipo1.nom }}:</p>
+        <ul>
+          <li *ngFor="let integrant of match.equipo1.integrantes">{{ integrant.username }}</li>
+        </ul>
+      </div>
+      <div class="col-md-6" [ngClass]="{'green-text': match.ganador && match.ganador.nom == match.equipo2.nom, 'black-text': match.ganador && match.ganador.nom != match.equipo2.nom}">
+        <p>Integrantes {{ match.equipo2.nom }}:</p>
+        <ul>
+          <li *ngFor="let integrant of match.equipo2.integrantes">{{ integrant.username }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
