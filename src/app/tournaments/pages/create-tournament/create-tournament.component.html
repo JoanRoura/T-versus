@@ -54,8 +54,9 @@
           <div class="form-group mb-3" *ngIf="selectedModality === 'Teams'">
             <label for="modalitySelect">Select number of teams</label>
             <select class="form-control" id="modalitySelect" (change)="onNumberOfTeamsChange($event)">
+              <option>4</option>
               <option>8</option>
-              <option>12</option>
+              <option>16</option>
             </select>
           </div>
 

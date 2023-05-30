@@ -7,9 +7,8 @@
     <div class="col-md-4" *ngFor="let match of matches">
       <app-admin-componente-match [match]="match"></app-admin-componente-match>
     </div>
-    <button (click)="obtenerGanadores()" [disabled]="ronda.estadoRonda === 'Cerrada'">
-      Obtener Ganadores
-    </button>
+    <button class="btn btn-primary m-2" (click)="obtenerGanadores()" [disabled]="ronda.estadoRonda === 'Cerrada'">Obtener Ganadores</button>
+
   </ng-container>
   <div role="separator" ng-reflect-ng-class="[object Object]" class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left"><div class="p-divider-content"></div></div>
 </div>
